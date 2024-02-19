@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/skeleton/normalize.css">
+    <link rel="stylesheet" href="/skeleton/skeleton.css">
+</head>
+<body>
+    <form method="POST" onsubmit="return sendData()">
+        <div class="container">
+            <div class="row">
+                <label for="signupLastname">Nom :</label>
+            </div>
+            <div class="row">
+                <input type="text" name="signupLastname" id="signupLastname" class= "twelve columns">
+            </div>
+
+            <div class="row">
+                <label for="signupFirstname">Prénom :</label>
+            </div>
+            <div class="row">
+                <input type="text" name="signupFirstname" id="signupFirstname" class="twelve columns">
+            </div>
+
+            <div class="row">
+                <label for="signupBirthdate">Date de naissance :</label>
+            </div>
+            <div class="row">
+                <input type="date" name="signupBirthdate" id="signupBirthdate">
+            </div>
+
+            <div class="row">
+                <label for="signupEmail">Adresse mail :</label>
+            </div>
+            <div class="row">
+                <input type="email" name="signupEmail" id="signupEmail" class="twelve columns">
+            </div>
+
+            <div class="row"> 
+                <label for="signupPwd">Mot de passe :</label>
+            </div>
+            <div class="row">
+                <input type="password" name="signupPwd" id="signupPwd" class="twelve columns">
+            </div>
+
+            <div class="row">
+                <input type="submit" value="Soumettre" class="twelve columns">
+            </div>
+        </div>
+    </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="/js/signup.js"></script>
+</body>
+</html>
