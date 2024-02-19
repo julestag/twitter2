@@ -12,17 +12,13 @@
 {
   var name = document.getElementById("name").value;
   var mail =document.getElementById("mail").value;
-  if (mail == )
   $.ajax({
     type: 'post',
     url: 'insert.php',
     data: {
       name:name,
-      age:age
+      mail:mail
     },
-    success: function (response) {
-      $('#res').html("Vos données seront sauvegardées");
-    }
   });
     
   return false;

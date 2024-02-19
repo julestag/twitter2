@@ -1,10 +1,11 @@
+
 <?php
   if( isset( $_POST['name'] ) )
   {
     $name = $_POST['name'];
-    $age = $_POST['age'];
-    $con = mysqli_connect("localhost","root"," ","my_db");
-    $insert = " INSERT INTO user VALUES( '$name','$age' ) ";
+    $mail = $_POST['mail'];
+    $con = mysqli_connect("localhost","jules","F05D730D5F","twitter");
+    $insert = " INSERT INTO user (name,mail) VALUES( '$name','$mail' ) ";
     mysqli_query($con, $insert); 
   }
 ?>
