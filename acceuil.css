@@ -5,18 +5,23 @@ body {
 }
 .all {
     display: flex;
+    font-family: Open Sans;
 }
 .left-side {
-    height: 100%;
-    min-height: 100vh;
-    width: 50%;
+    min-height: 80vh;
+    width: 40%;
+    margin-top: 5%;
+    margin-left: 6%;
     background-image: url("background-image.jpg");
-    background-size: 100%;
+    background-size: 76%;
     align-items: center;
     display: flex;
+    border-radius: 5%;
+    background-size: 100%;
+    size: 100%;
 }
 .logo {
-    width: 35%;
+    width: 25%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -29,43 +34,49 @@ body {
 }
 .right-side-content {
     text-align: center;
-    border: 0.5em solid black;
-    padding: 1em 2em;
-    border-radius: 50px;
 }
 
 #signupButton {
- background-color: #38b6ff;
- border:  1px solid black;
- width: 90%;
- padding-top: 0.5em;
- padding-bottom: 0.5em;
- border-radius: 10px;
- font-size: 2em;
+ background-color: black;
+ border:  1px solid white;
+ width: 60%;
+ padding-top: 1em;
+ padding-bottom: 1em;
+ border-radius: 20px;
+ font-size: 1em;
  color: white;
- box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
- -webkit-box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
- -moz-box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
  margin-top: 2em;
  margin-bottom: 2em;
 }
 #hr1 {
     margin-top: 1em;
 }
-#hr4 {
-    margin-bottom: 1em;
-}
 #signinButton{
     background-color: white;
     border:  1px solid black;
-    width: 90%;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    border-radius: 10px;
-    font-size: 2em;
+    width: 60%;;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 20px;
+    font-size: 1em;
     color: black;
-    box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
-    -webkit-box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
-    -moz-box-shadow: 8px 4px 7px 3px rgba(0,0,0,1);
     margin-bottom: 3em;
+}
+h2 {
+    font-size: 1.5em;
+}
+h1 {
+    font-size: 2.5em;
+}
+p {
+    font-size: 1.2em;
+}
+
+#conditions {
+    font-size: 9px;
+    text-align: center;
+    line-height: 0;
+}
+a{
+    color: #1E9AE1;
 }
