@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.tab-list > li{
+    margin-bottom: 1px;
+    margin-right: 1rem;
+    line-height: 2rem;
+ }
+ .tab-list > li > a{
+     cursor: pointer;
+     text-decoration: none;
+ }
+ .tab-content{
+     display: none;
+ }
+ .tab-pane > .active{
+     display: block;
+ }
+
+ .tab-list{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2em;
+ }
+ textarea{
+    resize: none;
+ }
+ textarea:focus{
+    outline: none;
+ }
+ .grid-cols-1{
+    margin-top: 1.5rem;
+ }
+ .post{
+    position: relative;
+    left: 15rem;
+    top: 0.6rem;
+ }
+ .hr_post{
+    margin-left: 1rem;
+ }
+ .img-photo{
+    position: relative;
+    left: 5.5rem;
+    top: 0.5rem ;
+ }
+ .col-span-4{
+    position: relative;
+    bottom: 15rem;
+ }
+ .menu{
+    margin-top: 1rem;
+ }
+ .search{
+    position:absolute;
+    top:0;
+    right:0;
+ }
+ .search:focus{
+    outline: none;
+ }
