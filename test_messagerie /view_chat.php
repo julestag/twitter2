@@ -11,6 +11,8 @@
     <div method="POST" id="div_message">
     </div>  
     <form id="chatbox">
+    <label>Entrez votre id</label>
+    <input type="number" name="number_id">
     <input type="text" name="message">
     <button type="submit">Send</button>
     </form>
