@@ -1,16 +1,16 @@
 <?php
 try {
-    $bdd = new PDO("mysql:host=localhost;dbname=test", "enzo", "root");
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "enzo", "root");
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }
 
-if (isset($_POST['firstname'])) {
-    $email = $_POST['email'];
-    $requete = $bdd->prepare("SELECT * FROM test WHERE email=?");
-    $requete->execute(["$email"]); 
-    $emails = $requete->fetch();
-    if ($emails) {;
+if (isset($_POST['names'])) {
+    $mail = $_POST['mail'];
+    $requete = $bdd->prepare("SELECT * FROM user WHERE mail=?");
+    $requete->execute(["$mail"]); 
+    $mails = $requete->fetch();
+    if ($mails) {
     echo json_encode("error email");
     } else {
         $birthdate = $_POST['birthdate'];
@@ -18,12 +18,20 @@ if (isset($_POST['firstname'])) {
         $diff = date_diff(date_create($birthdate), date_create($aujourdhui));
         $age = $diff->format('%y');
         if($age > 18){
-            $firstname = $_POST['firstname'];
-            $lastname = $_POST['lastname'];
-            $pwd = $_POST['pwd'];
-            $request = $bdd->prepare("INSERT INTO test (lastname, firstname, birthdate, email, pwd) VALUES (?, ?, ?, ?, ?)");
-            $request->execute([$lastname, $firstname, $birthdate, $email, $pwd]);
-            echo json_encode("no errors");
+            $pseudo = $_POST['pseudo'];
+            $requete = $bdd->prepare("SELECT * FROM user WHERE at_user_name=?");
+            $requete->execute(["$pseudo"]);
+            $pseudos = $requete->fetch();
+            if($pseudos){
+                echo json_encode("error pseudo");
+            } else {
+                $names = $_POST['names'];
+                $city = $_POST['city'];
+                $password = hash("ripemd160", "vive le projet tweet_academy" . $_POST['password']);
+                $request = $bdd->prepare("INSERT INTO user (username, at_user_name, profile_picture, bio, banner, mail, password, birthdate, private, city, campus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $request->execute([$names, $pseudo, "profil-image.png", null, "banniere-image.jpg", $mail, $password, $birthdate, null, $city, null]);
+                echo json_encode("no errors");
+            }
         } else {
             echo json_encode("error birthdate");
         }
