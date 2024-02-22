@@ -1,0 +1,125 @@
+.une {
+    display: flex;
+    margin-right: 1vh;
+    width: 40%;
+    margin-left: 10vh;
+}
+
+nav li {
+    padding-right: 1vh;
+    padding: 10vh;
+    padding-right: 1vh;
+
+}
+
+.nav {
+    display: flex;
+    margin-left: 2vh;
+    padding-left: 2vh;
+    margin-bottom: 1vh;
+}
+
+.section2 {
+    border: 1px solid black;
+    width: 25%;
+    margin-left: 16vh;
+    position: relative;
+    LEFT: 30VH;
+    bottom: 100VH;
+}
+
+.section2 input,
+textarea {
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-bottom: 10vh;
+}
+
+.une h1,
+input {
+    text-align: center;
+    justify-content: center;
+    padding-left: 35%;
+    position: relative;
+    left: 10vh;
+
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+.une {
+    position: relative;
+    left: 20vh;
+    bottom: 10vh;
+}
+
+.une h1 {
+    position: relative;
+    left: 2vh;
+}
+
+.logs {
+    background-color: black;
+    width: 70px;
+    height: 70px;
+    border-radius: 3px;
+    left: 3vh;
+    position: relative;
+    top: 3vh;
+}
+
+.logs img {
+    border-radius: 3px;
+}
+
+.search {
+    border: 1px solid black;
+    border-radius: 2vh;
+    position: relative;
+    top: 50vh;
+    margin-left: 10vh;
+}
+
+.ok {
+    border: 1px solid black;
+    position: relative;
+    top: 50vh;
+    left: 10vh;
+    border-radius: 5px;
+}
+
+.POST {
+    border: 1px solid blue;
+    background-color: blue;
+    color: white;
+    border-radius: 1vh;
+    width: 10%;
+    height: 10%;
+    position: relative;
+    top: 50vh;
+    right: 8vh;
+    padding: 0.5vh 2vh;
+}
+
+.element {
+    border: 1px solid black;
+    padding: 10vh 20vh;
+    margin-left: 60vh;
+    position: relative;
+    bottom: 45vh;
+    padding-bottom: 50vh;
+    border-bottom: none;
+    border-top: none;
+    border-right: none;
+}
+
+.h {
+    border: 1px solid black;
+    padding: 1vh 10vh;
+    position: relative;
+    justify-content: center;
+    text-align: center;
+
+}
