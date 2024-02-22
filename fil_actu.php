@@ -1,3 +1,5 @@
+<?php session_start() ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,7 +22,7 @@
 <div class="flex items-center">
     <img class="w-8" src="images/messages.png" alt="Logo twitter noir">
 
-    <button class="text-align mx-6"><a href="message.html">Messages</a></button>
+    <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
 </div>
 <br>
 <div class="flex items-center">
@@ -50,7 +52,7 @@
         </ul>
 
         <form>
-            <textarea placeholder="Write your tweet here.."></textarea>
+            <textarea placeholder="Write your tweet here.." id="area_tweet"></textarea>
             <hr class="hr_post w-9/12 ml-20">
            <a href="#"><img class="img-photo" src="images/img.png" alt="logo ajout image"></a>
             <a href="#_" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</a>
@@ -73,10 +75,10 @@
     <div class="col-span-2 w-10 text-align mx-3">
     <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">
 </div>
- 
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="script_feed.js"></script>
 </body>
 </html>

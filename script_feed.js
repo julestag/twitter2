@@ -26,3 +26,8 @@ function tabs (nav){
    for(var j = 0; j< navs.length; j++ ){
        tabs(navs[j]);
    } 
+
+
+   // TEST TWEET // 
+
+   var area = document.getElementById("area_tweet").value;
