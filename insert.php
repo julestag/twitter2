@@ -7,7 +7,7 @@
     $birthdate = $_POST['birthdate'];
     $mail = $_POST['mail'];
     $pwd = $_POST['pwd'];
-    $con = mysqli_connect("localhost","jules","root","twitter");
+    $con = mysqli_connect("localhost","jules","F05D730D5F","twitter");
     $insert = " INSERT INTO user (lastname,firstname,birthdate,mail,pwd) VALUES( '$lastname','$firstname','$birthdate','$mail','$pwd') ";
     mysqli_query($con, $insert); 
   }

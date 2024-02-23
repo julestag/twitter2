@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/output.css">
+    <title>Profile - tweet_academy</title>
+</head>
+<body>
+    <div class="grid grid-col-8">
+    <div class="menu col-span-2 w-10 text-align mx-3">
+        <img class="w-10" src="images/logonoir.png" alt="Logo twitter noir">
+        <br>
+        <div class="flex items-center">
+        <img class="w-8" src="images/home.png" alt="Logo twitter noir">
+
+        <a class="text-align mx-6" href="#">Home</a>
+</div>
+<br>
+<div class="flex items-center">
+    <img class="w-8" src="images/messages.png" alt="Logo twitter noir">
+
+    <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
+</div>
+<br>
+<div class="flex items-center mx-1 my-5">
+  
+    <a href="#_" class="inline-block px-12 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">POST</a>
+</div>
+
+    </div>
+
+  
+    
+
+    <div class="col-span-4 mb-4 w-1/2 p-4 mx-auto text-center border">
+        <div class="tab-list flex flex-wrap -mb-px text-sm font-medium" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+                <img class="w-10 rounded-full" src="images/user.png">
+        </div>
+            <div class="m-10">
+               
+                <p> Nom d'utilisateur</p>
+            </div>
+        <hr class="w-full mt-10 ">
+    
+            <div data-content id="tab2" class="tab-content">
+                <div><p>tweet</p></div>
+            </div>
+
+    </div>
+</div>
+
+
+    <div class="col-span-2 w-10 text-align mx-3">
+    <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">
+</div>
+ 
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
