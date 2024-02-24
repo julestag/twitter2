@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Profile - tweet_academy</title>
+</head>
+
+<body>
+    <section class="flex flex-col md:flex-row">
+        <div class="flex flex-col w-full md:w-1/4 p-4">
+            <img class="w-10 mb-4" src="images/logonoir.png" alt="Logo twitter noir">
+            <div class="flex items-center mb-4">
+                <img class="w-8 mr-2" src="images/home.png" alt="Home icon">
+                <a href="#" class="text-blue-500 hover:text-blue-700">Home</a>
+            </div>
+            <div>
+                <div class="flex items-center mb-4">
+                    <img class="w-8 mr-2" src="images/profile.png" alt="Messages icon">
+                    <button class="focus:outline-none">
+                        <a href="#" class="text-blue-500 hover:text-blue-700">Profil</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 p-4 flex flex-col items-center" style="bottom: 4vh; position: relative;">
+            <div class="w-full flex justify-center items-center my-20" style="margin-right: 700px; padding-left: 50px;">
+                <div class="flex space-x-60">
+                    <div class="bg-gray-400 w-0.5" style="height: 200vh;"></div>
+                    <h1 class="mx-2">Discussion</h1>
+                    <div class="bg-gray-400 w-0.5" style="height: 200vh;"></div>
+                </div>
+            </div>
+
+            <button class="px-4 text-white rounded-r-lg hover:bg-blue-700 focus:outline-none bg-blue-500" type="submit">
+
+            </button>
+
+
+            <div class="w-full max-w-xs relative" style="bottom: 202vh; right: 40vh;">
+                <form class="flex">
+                    <input style="border-radius: 10vh;"
+                        class="w-full pl-4 pr-10 py-2 leading-tight text-gray-700 border rounded-lg focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="text" placeholder="">
+                    <button type="submit" class="absolute inset-y-0 right-0 px-4 flex items-center text-black">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <H1 style="position: relative;bottom: 220vh;margin-left: 140vh;font-size: 4vh;">Messages</H1>
+        <form class="flex">
+            <input
+                style="border-radius: 10vh;border: 1px solid;margin-right: 70vh;margin-left: 60vh;position: relative;bottom: 150vh;left: 55vh;"
+                class="w-full pl-4 pr-10 py-2 leading-tight text-gray-700 border rounded-lg focus:outline-none focus:bg-white focus:border-gray-500"
+                type="text" placeholder="">
+        </form>
+    </section>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+
+</html>
