@@ -800,6 +800,14 @@ textarea:focus{
       width:          1px;       
  } */
 
+#post_tweet > input{
+  display: none;
+}
+
+#post_tweet > label{
+  cursor: pointer;
+}
+
 .hover\:border-blue-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(147 197 253 / var(--tw-border-opacity));

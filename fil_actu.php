@@ -51,11 +51,18 @@
             </li>
         </ul>
 
-        <form>
-            <textarea placeholder="Write your tweet here.." id="area_tweet"></textarea>
+        <form id="post_tweet">
+            <textarea placeholder="Write your tweet here.." id="tweet" maxlength="140"></textarea>
             <hr class="hr_post w-9/12 ml-20">
-           <a href="#"><img class="img-photo" src="images/img.png" alt="logo ajout image"></a>
-            <a href="#_" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</a>
+
+
+            <label for="file-input">
+           <img class="img-photo" src="images/img.png" alt="logo ajout image">
+            </label>
+
+            
+           <input type="file" id="file-input">
+            <button type="submit" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</button>
         </form>
 
         <hr class="w-full mt-5">
@@ -77,6 +84,9 @@
 </div>
 
     </div>
+
+    
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="script_feed.js"></script>

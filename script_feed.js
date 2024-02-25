@@ -28,6 +28,72 @@ function tabs (nav){
    } 
 
 
-   // TEST TWEET // 
+   var message = document.getElementById("message");
 
-   var area = document.getElementById("area_tweet").value;
+   message.addEventListener("click",function(){
+    openForm();
+   })
+   function openForm() {
+    document.getElementById("popupForm").style.display = "block";
+  }
+
+  function closeForm() {
+    document.getElementById("popupForm").style.display = "none";
+  }
+
+   // TEST TWEET // 
+   var i = 0
+   function max_char()
+   {
+       var area_length=document.getElementById("tweet").value.length;
+       if(area_length>140)
+       {
+            alert("140 caractères autorisé dépassé, Veuillez raccourcir votre texte puis réessayer.");
+            return false;
+       }
+       else
+       {
+            const para = document.createElement("p");
+            var tmp = document.getElementById("tweet").value;
+            para.innerHTML = tmp;
+            document.getElementById("tab2").appendChild(para);
+
+            if(document.querySelector('input[type=file]').value !== ""){
+                var img = document.querySelector('input[type=file]').files[0];
+                var reader = new FileReader();
+                
+                reader.addEventListener("load", function () {
+                   
+                   console.log(reader.result);
+                    localStorage.setItem("image_" + i, reader.result);
+                    i++;
+                }, false);
+                
+                if (img) {
+                    reader.readAsDataURL(img);
+                }
+
+               var img_element =  document.createElement("img");
+               img_element.setAttribute("src", localStorage.getItem("image_" + i));
+               document.getElementById("tab2").appendChild(img_element);
+            }
+            
+           return true;
+       }
+   }
+ 
+   document.getElementById("post_tweet").addEventListener("submit",function(e){
+    e.preventDefault();
+    max_char();
+
+    
+       //Partie photo//
+
+   })
+
+
+
+
+
+   
+
