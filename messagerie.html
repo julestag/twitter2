@@ -4,71 +4,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/output.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>Profile - tweet_academy</title>
 </head>
+<style>
+    .buttonok:hover {
+        background-color: rosybrown;
+        color: white;
+    }
+
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+    }
+
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .button-settings {
+        position: relative;
+        top: 5vh;
+        background-color: grey;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .button-settings:hover {
+        background-color: #0d8bf2;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .ongletcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        margin-top: 20px;
+    }
+
+    .ongletbutton {
+        background-color: #f1f1f1;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    .ongletbutton:hover {
+        background-color: #ddd;
+    }
+
+    .ongletbutton.active {
+        background-color: #ccc;
+    }
+
+    body {
+        background-color: #f0f0f0;
+    }
+
+    .notification-button {
+        position: relative;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 32px;
+        color: #333;
+        top: 10vh;
+        margin-left: 3vh;
+    }
+
+    .notification-button:hover {
+        color: #0d8bf2;
+    }
+</style>
 
 <body>
-    <section class="flex flex-col md:flex-row">
-        <div class="flex flex-col w-full md:w-1/4 p-4">
-            <img class="w-10 mb-4" src="images/logonoir.png" alt="Logo twitter noir">
-            <div class="flex items-center mb-4">
-                <img class="w-8 mr-2" src="images/home.png" alt="Home icon">
-                <a href="#" class="text-blue-500 hover:text-blue-700">Home</a>
+    <div class="grid grid-col-8">
+        <div class="menu col-span-2 w-10 text-align mx-3">
+            <img class="w-10" src="./logs.png" alt="Logo twitter noir">
+            <br>
+            <div class="flex items-center">
+                <img class="w-8" src="images/home.png" alt="Logo twitter noir">
+                <a class="text-align mx-6" href="#">Home</a>
             </div>
-            <div>
-                <div class="flex items-center mb-4">
-                    <img class="w-8 mr-2" src="images/profile.png" alt="Messages icon">
-                    <button class="focus:outline-none">
-                        <a href="#" class="text-blue-500 hover:text-blue-700">Profil</a>
-                    </button>
-                </div>
+            <br>
+            <div class="flex items-center">
+                <img class="w-8" src="images/profile.png" alt="Logo twitter noir">
+                <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
             </div>
-        </div>
-
-        <div class="flex-1 p-4 flex flex-col items-center" style="bottom: 4vh; position: relative;">
-            <div class="w-full flex justify-center items-center my-20" style="margin-right: 700px; padding-left: 50px;">
-                <div class="flex space-x-60">
-                    <div class="bg-gray-400 w-0.5" style="height: 200vh;"></div>
-                    <h1 class="mx-2">Discussion</h1>
-                    <div class="bg-gray-400 w-0.5" style="height: 200vh;"></div>
-                </div>
-            </div>
-
-            <button class="px-4 text-white rounded-r-lg hover:bg-blue-700 focus:outline-none bg-blue-500" type="submit">
-
+            <button class="button-settings" onclick="buttonreglage()">
+                <i class="fas fa-cog"></i> Réglages
             </button>
-
-
-            <div class="w-full max-w-xs relative" style="bottom: 202vh; right: 40vh;">
-                <form class="flex">
-                    <input style="border-radius: 10vh;"
-                        class="w-full pl-4 pr-10 py-2 leading-tight text-gray-700 border rounded-lg focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" placeholder="">
-                    <button type="submit" class="absolute inset-y-0 right-0 px-4 flex items-center text-black">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </form>
+            <button class="notification-button" onclick="notif()">
+                <i class="fas fa-bell"></i>
+            </button>
+            <div id="notificationsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="notif()">&times;</span>
+                    <h2>Notifications</h2>
+                    <p>0 Notifications</p>
+                </div>
             </div>
+            <div id="settingsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="fermemodal()">&times;</span>
+                    <h2>Personnaliser la page</h2>
+                    <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;"
+                        onclick="changeBackgroundColor('#CCCCCC')">Gris</button>
+                    <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;"
+                        onclick="changeBackgroundColor('#a4d4f4')">blue</button>
+                    <h2>Changer la Font-Size</h2>
+                    <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;"
+                        onclick="incremsize()">Augmenter la taille de la police</button>
+                    <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;"
+                        onclick="decremsize()">Diminuer la taille de la police</button>
+                </div>
+            </div>
+            <br>
         </div>
-    </section>
-    <section>
-        <H1 style="position: relative;bottom: 220vh;margin-left: 140vh;font-size: 4vh;">Messages</H1>
-        <form class="flex">
-            <input
-                style="border-radius: 10vh;border: 1px solid;margin-right: 70vh;margin-left: 60vh;position: relative;bottom: 150vh;left: 55vh;"
-                class="w-full pl-4 pr-10 py-2 leading-tight text-gray-700 border rounded-lg focus:outline-none focus:bg-white focus:border-gray-500"
-                type="text" placeholder="">
-        </form>
-    </section>
+        <section style="position:relative;bottom:30vh;border-right: 10vh;" id="messagerie">
+            <div style="padding-bottom: 10vh;">
+                <h1 style="position: relative;left: 50vh;bottom:10vh;font-size:24px;">Discussion</h1>
+                <input style="position:relative;left:40vh;width: 40vh;border: 1px solid black;border-radius: 3vh;"
+                    type="text" name="" id="">
+                <button
+                    style="position: relative;left: 31vh;border: 1px solid black;background-color: grey;border-radius: 3vh;">chercher</button>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+            </div>
+            <div style="position: relative;left: 30vh;">
+                <p style="border: 1px solid black;border-radius:5px;text-align: center;width: 50%;">USER1</p>
+                <br>
+                <p style="border: 1px solid black;border-radius:5px;text-align: center;width: 50%;">USER1</p>
+                <br>
+                <p style="border: 1px solid black;border-radius:5px;text-align: center;width: 50%;">USER1</p>
+                <br>
+                <p style="border: 1px solid black;border-radius:5px;text-align: center;width: 50%;">USER1</p>
+                <br>
+                <p style="border: 1px solid black;border-radius:5px;text-align: center;width: 50%;">USER1</p>
+            </div>
+        </section>
+        <section
+            style="border-left: 2px solid black;height: 80vh;bottom: 12vh;border-top:2px solid black;padding-top: 4vh;position: relative;">
+            <h1 style="font-size: 24px;position: relative;bottom: 12vh;">Message</h1>
+            <div>
+                <p
+                    style="border:1px solid black;width: 20vh;height: 5vh;left: 5vh;position: relative;border-radius: 3vh;bottom: 5vh;">
+                </p>
+                <p
+                    style="border:1px solid black;width: 20vh;height: 5vh;position: relative;left:50vh;top: 5vh;border-radius: 3vh;">
+                </p>
+                <p
+                    style="border:1px solid black;width: 20vh;height: 5vh;left: 8vh;position: relative;border-radius: 3vh;top: 15vh;">
+                </p>
+                <p
+                    style="border:1px solid black;width: 20vh;height: 5vh;position: relative;left:50vh;top: 20vh;border-radius: 3vh;">
+                </p>
+            </div>
+            <input type="text"
+                style="width: 50vh;border-radius: 3vh;border:1px solid black;left: 20vh;position: relative;height: 4vh;top:35vh;">
+
+            <button class="buttonok"
+                style="top: 35vh;position: relative;left: 16vh;border:1px solid grey;padding: 0.3vh;border-radius: 3vh;background-color: grey;">ok</button>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+
+        <script src="script_feed.js"></script>
 </body>
+<script src="script.js"></script>
+
+
 
 </html>
