@@ -150,6 +150,9 @@
                     <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
                 </div>
             </div>
+            <div>
+                <button style="border:1px solid black;padding:1vh;border-radius:5px;position:relative;bottom:35vh;left:165vh;">Déconnexion</button>
+            </div>
             <br>
         </div>
 
@@ -282,14 +285,11 @@
 
         </div>
     </div>
-
-
     <div class="col-span-2 w-10 text-align mx-3">
-        <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" type="text" placeholder="Search">
+        <input style="margin-right: 80vh;width:40vh;" class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" type="text" placeholder="">
+        <button style="border: 1px solid black;bottom:182.3vh;position:relative;left:120vh;border-radius:3vh;left:106vh;padding:0.4vh;background-color:grey;">Search</button>
     </div>
-
     </div>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="script_feed.js"></script>
 </body>
