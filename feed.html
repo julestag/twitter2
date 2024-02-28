@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="tweetsDiv">
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function printTweets(){
+            var print = true;
+            $.ajax({
+                type: 'POST',
+                url: 'feed.php',
+                data: {
+                    print:print,
+                },
+                success: function(response){
+                    let tweets = JSON.parse(response);
+                    console.log(tweets);
+                    var tweetsDiv = document.getElementById("tweetsDiv");
+                    tweetsDiv.innerHTML = '';
+                    tweets.forEach((element) => {
+                        var p = document.createElement('p');
+                        p.textContent = element.content;
+                        tweetsDiv.appendChild(p);
+                    });
+                },
+                error: function() {
+                    console.log("error");
+                }
+            });
+        }
+        printTweets();
+        setInterval(printTweets, 5000);
+    </script>
+</body>
+</html>

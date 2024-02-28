@@ -30,6 +30,10 @@ if (isset($_POST['names'])) {
                 $password = hash("ripemd160", "vive le projet tweet_academy" . $_POST['password']);
                 $request = $bdd->prepare("INSERT INTO user (username, at_user_name, profile_picture, bio, banner, mail, password, birthdate, private, city, campus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $request->execute([$names, $pseudo, "profil-image.png", null, "banniere-image.jpg", $mail, $password, $birthdate, null, $city, null]);
+                $request=$bdd->query("SELECT id from user WHERE mail = '$mail'");
+                $temp = $request->fetch();
+                $idUser = $temp['id'];
+                $request=$bdd->query("INSERT INTO token (id_user, now) VALUES ($idUser, NOW())");
                 echo json_encode("no errors");
             }
         } else {

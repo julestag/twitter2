@@ -24,6 +24,7 @@ function sendData(){
   $.ajax({
     type: 'POST',
     url: 'signup.php',
+    dataType: 'json',
     data: {
       names:names,
       pseudo:pseudo,
@@ -32,8 +33,11 @@ function sendData(){
       mail:mail,
       password:password
     },
+    
     success: function(response){
+      console.log(response);
       let responseString = JSON.parse(response);
+      console.log(responseString);
       if(responseString == "error email"){
         alert("Cette adresse mail est déja associée a un compte.");
         console.log(responseString);
@@ -45,6 +49,9 @@ function sendData(){
       if(responseString == "error pseudo"){
         alert("Ce pseudo est déja utilisé par un autre utilisateur.");
       }
+      if(responseString == "no errors"){
+        alert("Inscription réussie !");
+      }
     }
   });
     
@@ -54,19 +61,24 @@ function sendData(){
 function checkData(){
   var mailbis =document.getElementById("mailbis").value;
   var passwordbis =document.getElementById("passwordbis").value;
+  // consosle.log("test");
+  console.log(mailbis);
   $.ajax({
     type: 'POST',
     url: 'signin.php',
+    dataType: 'json',
     data: {
       mailbis:mailbis,
       passwordbis:passwordbis
     },
     success: function(response){
       let responseString = JSON.parse(response);
+      // console.log("test");
       if(responseString == "error no account"){
         alert("Ce compte n'existe pas");
-      } else {
-        console.log(responseString);
+      }
+      if (responseString == "open session"){
+        alert("Ce compte existe");
       }
     }
   });

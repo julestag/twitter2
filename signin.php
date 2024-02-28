@@ -4,7 +4,6 @@ try {
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }
-
 if(isset($_POST["mailbis"])){
     $mailbis = $_POST["mailbis"];
     $passwordbis = hash("ripemd160", "vive le projet tweet_academy" . $_POST['passwordbis']);
@@ -18,8 +17,12 @@ if(isset($_POST["mailbis"])){
     if($requete->rowCount() > 0){
         $result = $requete->fetch();
         $infoUser = array($result['username']);
-        echo json_encode($infoUser);
+        $token = bin2hex(random_bytes(15));
+        $idUser = $result["id"];
+        $requete = $bdd->query("UPDATE token SET token = '$token', now = NOW() WHERE id_user = $idUser");
+        setcookie( "token", $token, time() + 10 );
+        header("location: fil_actu.php");
     } else {
-        echo json_encode("error no account");
+       echo "Le compte n'existe pas";
     }
 }

@@ -40,7 +40,7 @@
                             <label for="city">
                                 <strong>Ville</strong>
                             </label>
-                            <input type="text" id="city" name="city" placeholder="Votre Ville" required />
+                            <input type="text" id="city" name="city" placeholder="Votre Ville"/>
                             <label for="mail">
                                 <strong>E-mail</strong>
                             </label>
@@ -59,7 +59,7 @@
                 <button id="signinButton" class="open-button" onclick="openSigninForm()">Se connecter</button><br><br>
                 <div class="login-popup">
                     <div class="form-popup" id="signinForm">
-                      <form class="form-container" method="POST" onsubmit="return checkData();">
+                      <form class="form-container" method="POST" action = "signin.php">
                         <h2>Entrez vos informations</h2>
                         <label for="mailbis">
                           <strong>E-mail</strong>
@@ -83,6 +83,6 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
