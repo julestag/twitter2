@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="styles.css">
     <title>Profile - tweet_academy</title>
 </head>
+
 <style>
     .modal {
         display: none;
