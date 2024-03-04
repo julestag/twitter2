@@ -14,7 +14,7 @@
         function printTweets(){
             var print = true;
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: 'feed.php',
                 data: {
                     print:print,
@@ -26,8 +26,9 @@
                     tweetsDiv.innerHTML = '';
                     tweets.forEach((element) => {
                         var p = document.createElement('p');
-                        p.textContent = element.content;
+                        p.textContent = element['at_user_name'] + " : " + element['content'];
                         tweetsDiv.appendChild(p);
+                        console.log(element['content']);
                     });
                 },
                 error: function() {
