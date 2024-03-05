@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -48,27 +49,24 @@
                 <button data-target="tab2" href="#" class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-blue-300 dark:hover:text-blue-300">Following</button>
             </li>
         </ul>
-
-        <form>
-            <textarea id="tweet" placeholder="Write your tweet here.." maxlength="140"></textarea>
-            <hr class="hr_post w-9/12 ml-20">
-           <a href="#"><img class="img-photo" src="images/img.png" alt="logo ajout image"></a>
-            <button type="button" onclick="postForm()" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</button>
-            
-        </form>
+        <form id="tweet-form" action="#" method="get">
+    <input id="tweet" name="tweet" placeholder="Write your tweet here.." maxlength="140">
+    <hr class="hr_post w-9/12 ml-20">
+    <input type="submit" name="push" value="Post" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">
+</form>
 
         <hr class="w-full mt-5">
         <div class="tab-pane h-screen flex justify-center grid-cols-2 mb-4 w-1/2 p-4 ">
             <div data-content id="tab1" class="tab-content">
-                <p>gdzdhhihuizhuiah</p>
+ nbvcxw<
             </div>
     
             <div data-content id="tab2" class="tab-content">
+            <div id="datadutweet"></div>
             </div>
 
     </div>
 </div>
-
 
     <div class="col-span-2 w-10 text-align mx-3">
     <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">

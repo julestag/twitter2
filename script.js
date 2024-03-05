@@ -22,9 +22,9 @@ function tabs (nav){
         });
     }
    }
-   var navs = document.querySelectorAll(".tab-list");
-   for(var j = 0; j< navs.length; j++ ){
-       tabs(navs[j]);
+   var list = document.querySelectorAll(".tab-list");
+   for(var j = 0; j< list.length; j++ ){
+       tabs(list[j]);
    } 
 
    var message = document.getElementById("message");
@@ -40,8 +40,37 @@ function tabs (nav){
     document.getElementById("popupForm").style.display = "none";
   }
   function postForm(){
-    const para = document.createElement("p");
+    const lol = document.createElement("div");
+    lol.id    = "tweet1";
     var tmp = document.getElementById("tweet").value;
-    para.innerHTML = tmp;
-    document.getElementById("tab2").appendChild(para);
+    lol.innerHTML = tmp;
+
+
+    document.getElementById("tab2").appendChild(lol);
+
+
+    
   }
+  $(document).ready(function() {
+    $('#tweet-form').submit(function(e) {
+        e.preventDefault();
+        
+   
+        var formData = $(this).serialize();
+
+      
+        $.ajax({
+            type: 'GET',
+            url: 'connexion.php',
+            data: formData,
+            success: function(response) {
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+var tab2Div = document.getElementById("tab2");
+

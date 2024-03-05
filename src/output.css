@@ -892,6 +892,13 @@ textarea:focus{
   width:          1px;
 }
 
+#tweet1{
+  width: 700px;
+  height: 100px;
+  border: 1px solid rgb(206, 206, 206);
+  margin-left: 24%;
+}
+
 .hover\:border-blue-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(147 197 253 / var(--tw-border-opacity));
