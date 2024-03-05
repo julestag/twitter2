@@ -136,8 +136,10 @@
             <div id="notificationsModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button" onclick="notif()">&times;</span>
+                    
                     <h2>Notifications</h2>
                     <p>0 Notifications</p>
+
                 </div>
             </div>
             <div id="settingsModal" class="modal">
@@ -156,16 +158,9 @@
             </div>
             <br>
         </div>
-
-
     </div>
-
-
     <br>
-
-
     </div>
-
     <script>
         function onglets(evt, tabName) {
             var i, ongletcontent, ongletbutton;
