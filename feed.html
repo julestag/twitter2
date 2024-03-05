@@ -26,7 +26,8 @@
                     tweetsDiv.innerHTML = '';
                     tweets.forEach((element) => {
                         var p = document.createElement('p');
-                        p.textContent = element['at_user_name'] + " : " + element['content'];
+                        var content = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
+                        p.innerHTML = element['at_user_name'] + " : " + content;
                         tweetsDiv.appendChild(p);
                         console.log(element['content']);
                     });
