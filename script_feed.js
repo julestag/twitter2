@@ -42,7 +42,6 @@ function tabs (nav){
   }
 
    // TEST TWEET // 
-   var i = 0
    function max_char()
    {
        var area_length=document.getElementById("tweet").value.length;
@@ -63,10 +62,14 @@ function tabs (nav){
                 var reader = new FileReader();
                 
                 reader.addEventListener("load", function () {
-                   
                    console.log(reader.result);
-                    localStorage.setItem("image_" + i, reader.result);
-                    i++;
+                  var key =  Math.floor(Math.random() * 9000)
+                    localStorage.setItem("image_" + key, reader.result);
+
+
+                    $.post("model.php",{key: "image_"+key},function(){});
+
+
                 }, false);
                 
                 if (img) {
