@@ -20,7 +20,7 @@ if(isset($_POST["mailbis"])){
         $token = bin2hex(random_bytes(15));
         $idUser = $result["id"];
         $requete = $bdd->query("UPDATE token SET token = '$token', now = NOW() WHERE id_user = $idUser");
-        setcookie( "token", $token, time() + 10 );
+        setcookie( "token", $token, time() + 3600 );
         header("location: fil_actu.php");
     } else {
        echo "Le compte n'existe pas";

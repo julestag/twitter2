@@ -3,6 +3,7 @@ try {
     $bdd = new PDO("mysql:host=localhost;dbname=twitter", "enzo", "root");
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+    exit();
 }
 
 if (isset($_POST['names'])) {
@@ -18,7 +19,7 @@ if (isset($_POST['names'])) {
         $diff = date_diff(date_create($birthdate), date_create($aujourdhui));
         $age = $diff->format('%y');
         if($age > 18){
-            $pseudo = $_POST['pseudo'];
+            $pseudo = "@" . $_POST['pseudo'];
             $requete = $bdd->prepare("SELECT * FROM user WHERE at_user_name=?");
             $requete->execute(["$pseudo"]);
             $pseudos = $requete->fetch();
