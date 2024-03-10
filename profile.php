@@ -1,9 +1,10 @@
 <?php
 
 include('./php1/db.php');
-include('./php1/Infos_user.php'); 
+include('./php1/Infos_user.php');
 include('./php1/compteur.php');
 include('./php1/show_tweet.php');
+include('./php1/show_like.php');
 
 ?>
 <!DOCTYPE html>
@@ -19,24 +20,23 @@ include('./php1/show_tweet.php');
 
     <title>Profile - tweet_academy</title>
 </head>
-<style>
-</style>
+
 
 <body>
     <div class="grid grid-col-8">
         <div class="menu col-span-2 w-10 text-align mx-3">
-            <img class="w-10" src="./logs.png" alt="Logo twitter noir">
+            <img class="w-10" src="./images/logs.png" alt="Logo twitter noir">
             <br>
             <div class="flex items-center">
                 <img class="w-8" src="./images/home.png" alt="Logo twitter noir">
 
-                <a class="text-align mx-6" href="#">Home</a>
+                <a class="text-align mx-6" href="fil_actu.php">Home</a>
             </div>
             <br>
             <div class="flex items-center">
-                <img class="w-8" src="images/profile.png" alt="Logo twitter noir">
+                <img class="w-8" src="images/messages.png" alt="Logo messagerie">
 
-                <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
+                <button class="text-align mx-6 data-target" id="message"><a href="messagerie.php">Messages</a></button>
             </div>
 
             <button class="button-settings" onclick="buttonreglage()">
@@ -58,18 +58,27 @@ include('./php1/show_tweet.php');
 
 
             <div id="settingsModal" class="modal">
+
                 <div class="modal-content">
+
                     <span class="close-button" onclick="fermemodal()">&times;</span>
+
                     <h2>Personnaliser la page</h2>
+
                     <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#CCCCCC')">Gris</button>
                     <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#a4d4f4')">blue</button>
+
                     <h2>Changer la Font-Size</h2>
+
                     <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="incremsize()">Augmenter la taille de la police</button>
                     <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
 
                 </div>
+
             </div>
+
             <br>
+
         </div>
         <div class="bg-gray-100" style="position: relative;left: 30VH;bottom: 35vh;padding: 10vh;">
             <div class="container mx-auto px-4">
@@ -79,28 +88,53 @@ include('./php1/show_tweet.php');
                     </div>
                     <div class="text-center mb-4">
                         <h1 class="text-xl font-bold"><?php echo htmlspecialchars($userInfo['username']); ?></h1>
-                        <p class="text-gray-600"><?php echo htmlspecialchars($userInfo['AtUsername']); ?></p>
+                        <p class="text-gray-600"><?php echo htmlspecialchars($userInfo['at_user_name']); ?></p>
                     </div>
 
                     <?php
 
                     ?>
+                    <div class="text-center mb-4">
+
+
+                        <p class="text-gray-600 mt-2"><?php echo nl2br(htmlspecialchars($userInfo['bio'])); ?></p>
+                    </div>
+
                     <div class="flex justify-around text-center border-t border-gray-300 pt-4">
                         <div>
-                            <h2 class="text-lg font-bold"><?php echo $tweetCount; ?></h2>
+                            <h2 class="text-lg font-bold" id="compteurTweets"><?php echo $tweetCount; ?></h2>
                             <p class="text-gray-600">Tweets</p>
                         </div>
 
-                        <div>
-                            <h2 class="text-lg font-bold"><?php echo $compteurabonne; ?></h2>
-                            <p class="text-gray-600">Abonnés</p>
+
+                        <div id="modalAbonnes" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button" onclick="fermerModalAbonnes()">&times;</span>
+                                <h2>Abonnés</h2>
+                                <div id="listeAbonnes">
+                                    <?php
+                                    foreach ($abonnes as $abonne) {
+                                        echo "<p>" . htmlspecialchars($abonne['username']) . " (ID: " . htmlspecialchars($abonne['userId']) . ")</p>";
+                                    }
+                                    ?>
+
+                                </div>
+                            </div>
                         </div>
                         <div>
+                            <h2 class="text-lg font-bold" id="compteurAbonnes"><?php echo $compteurabonne; ?></h2>
+                            <p class="text-gray-600">Abonnés</p>
+                        </div>
+
+
+
+                        <div>
                             <h2 class="text-lg font-bold"><?php echo $compteurabonnement; ?></h2>
-                            <p class="text-gray-600">Abonnemenst</p>
+                            <p class="text-gray-600">Abonnement</p>
                         </div>
                     </div>
                 </div>
+
                 <br>
 
                 <div class="tabs">
@@ -119,16 +153,33 @@ include('./php1/show_tweet.php');
                 </div>
 
 
-<a href="">
+                <a href="">
 
 
-                <div id="Likes" class="ongletcontent">
-                    <h3>Likes</h3>
-                    <p>Contents Likes</p>
-                    <p>Content Likes 2</p>
-                </div>
+                    <div id="Likes" class="ongletcontent">
+                        <h3>Likes</h3>
+                        <?php
+                        foreach ($likedTweets as $tweet) {
+                            echo "<div><p>" . htmlspecialchars($tweet['content']) . "</p><small>Posté le: " . htmlspecialchars($tweet['time']) . "</small></div>";
+                        }
+                        ?>
+                    </div>
 
+
+                    <script src="./script_parametre.js"></script>
 
 </body>
-<script src="/assets/script/script.js"></script>
+<script>
+    function afficherModalAbonnes() {
+        document.getElementById('modalAbonnes').style.display = 'block';
+    }
+
+    function fermerModalAbonnes() {
+        document.getElementById('modalAbonnes').style.display = 'none';
+    }
+
+    document.getElementById('compteurAbonnes').addEventListener('click', afficherModalAbonnes);
+</script>
+
+
 </html>
