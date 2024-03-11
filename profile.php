@@ -5,6 +5,8 @@ include('./php1/Infos_user.php');
 include('./php1/compteur.php');
 include('./php1/show_tweet.php');
 include('./php1/show_like.php');
+include('./php1/updateProfile.php');
+
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +22,41 @@ include('./php1/show_like.php');
 
     <title>Profile - tweet_academy</title>
 </head>
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
 
 <body>
     <div class="grid grid-col-8">
@@ -80,6 +116,8 @@ include('./php1/show_like.php');
             <br>
 
         </div>
+
+
         <div class="bg-gray-100" style="position: relative;left: 30VH;bottom: 35vh;padding: 10vh;">
             <div class="container mx-auto px-4">
                 <div class="w-full max-w-xl mx-auto pt-4">
@@ -94,6 +132,23 @@ include('./php1/show_like.php');
                     <?php
 
                     ?>
+                    <button onclick="document.getElementById('editProfileModal').style.display='block'">
+                        <i class="fas fa-cog"></i> Éditer le profil
+                    </button>
+
+                    <div id="editProfileModal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close-button" onclick="document.getElementById('editProfileModal').style.display='none'">&times;</span>
+                            <form action="./php1/updateProfile.php" method="post">
+                                <input type="hidden" name="userId" value="1">
+                                Username: <input type="text" name="username" required><br>
+                                @Username: <input type="text" name="at_user_name" required><br>
+                                Bio: <textarea name="bio" required></textarea><br>
+                                <input type="submit" value="Mettre à jour le profil">
+                            </form>
+                        </div>
+                    </div>
+
                     <div class="text-center mb-4">
 
 
@@ -166,19 +221,16 @@ include('./php1/show_like.php');
                     </div>
 
 
+
+
+
                     <script src="./script_parametre.js"></script>
+                    <script src="./style_modal_profile.js"></script>
 
 </body>
+
 <script>
-    function afficherModalAbonnes() {
-        document.getElementById('modalAbonnes').style.display = 'block';
-    }
-
-    function fermerModalAbonnes() {
-        document.getElementById('modalAbonnes').style.display = 'none';
-    }
-
-    document.getElementById('compteurAbonnes').addEventListener('click', afficherModalAbonnes);
+    let input = document.getElementsByTagName()
 </script>
 
 
