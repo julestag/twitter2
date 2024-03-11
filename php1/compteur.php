@@ -1,35 +1,31 @@
 <?php
-
-function compteurtweet($userId, $conn)
+function compteurtweet($conn, $idUser)
 {
-    $sql = "SELECT COUNT(*) AS tweet_count FROM tweet WHERE id_user = :userId";
+    $sql = "SELECT COUNT(*) AS 'tweet_count' FROM tweet WHERE id_user = :idUser";
     $stmt = $conn->prepare($sql);
-    $stmt->execute(['userId' => $userId]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute(['idUser' => $idUser]);
+    $row = $stmt->fetch();
     return $row['tweet_count'];
 }
-$userId = 1;
-$tweetCount = compteurtweet($userId, $conn);
+$tweetCount = compteurtweet($conn, $idUser);
 
 
-function compteurabonne($userId, $conn)
+function compteurabonne($conn, $idUser)
 {
-    $sql = "SELECT COUNT(*) AS subscriber_count FROM subscriptions WHERE id_user = :userId";
+    $sql = "SELECT COUNT(*) AS 'subscriber_count' FROM follow WHERE id_follow = :idUser";
     $stmt = $conn->prepare($sql);
-    $stmt->execute(['userId' => $userId]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute(['idUser' => $idUser]);
+    $row = $stmt->fetch();
     return $row['subscriber_count'];
 }
-$userId = 1;
-$compteurabonne = compteurabonne($userId, $conn);
+$compteurabonne = compteurabonne($conn, $idUser);
 
-function compteurabonnement($userId, $conn)
+function compteurabonnement($conn, $idUser)
 {
-    $sql = "SELECT COUNT(*) AS abonnement from follow where id_user = :userId";
+    $sql = "SELECT COUNT(*) AS 'abonnement' from follow where id_user = :idUser";
     $stmt = $conn->prepare($sql);
-    $stmt->execute(['userId' => $userId]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute(['idUser' => $idUser]);
+    $row = $stmt->fetch();
     return $row['abonnement'];
 }
-$userId = 1;
-$compteurabonnement = compteurabonnement($userId, $conn);
+$compteurabonnement = compteurabonnement($conn, $idUser);

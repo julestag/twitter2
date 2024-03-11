@@ -29,7 +29,7 @@ if (isset($_POST['names'])) {
                 $city = $_POST['city'];
                 $password = hash("ripemd160", "vive le projet tweet_academy" . $_POST['password']);
                 $request = $bdd->prepare("INSERT INTO user (username, at_user_name, profile_picture, bio, banner, mail, password, birthdate, private, city, campus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $request->execute([$names, $pseudo, "profil-image.png", null, "banniere-image.jpg", $mail, $password, $birthdate, null, $city, null]);
+                $request->execute([$names, $pseudo, "image_00", null, "banniere-image.jpg", $mail, $password, $birthdate, null, $city, null]);
                 $request=$bdd->query("SELECT id from user WHERE mail = '$mail'");
                 $temp = $request->fetch();
                 $idUser = $temp['id'];

@@ -1,10 +1,9 @@
 <?php
-function showtweet($userId, $conn)
+function showtweet($conn, $idUser)
 {
-    $sql = "SELECT content as tweet FROM tweet WHERE id_user = :userId ORDER BY time DESC";
+    $sql = "SELECT content as tweet FROM tweet WHERE id_user = :idUser ORDER BY time DESC";
     $stmt = $conn->prepare($sql);
-    $stmt->execute(['userId' => $userId]);
+    $stmt->execute(['idUser' => $idUser]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-$userId = 1;
-$tweets = showtweet($userId, $conn);
+$tweets = showtweet($conn, $idUser);

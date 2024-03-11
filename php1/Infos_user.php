@@ -1,11 +1,13 @@
 <?php 
-       function getUserInfo($userId, $conn)
-       {
-           $sql = "SELECT username, at_user_name, profile_picture, bio FROM user WHERE id = :userId";
-           $stmt = $conn->prepare($sql);
-           $stmt->execute(['userId' => $userId]);
-           return $stmt->fetch(PDO::FETCH_ASSOC);
-       }
+    $requete = $conn -> query("SELECT user.id FROM user INNER JOIN token ON user.id = token.id_user WHERE token.token = '$token'");
+    $result = $requete->fetch();
+    $idUser = $result["id"];
+    function getUserInfo($conn, $idUser)
+    {
+        $sql = "SELECT username, at_user_name, profile_picture, bio FROM user WHERE id = :idUser";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['idUser' => $idUser]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-       $userId = 1;
-       $userInfo = getUserInfo($userId, $conn);
+    $userInfo = getUserInfo($conn, $idUser);

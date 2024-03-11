@@ -1,4 +1,6 @@
 <?php 
+define('STDOUT', fopen('php://stdout', 'w'));
+
 try {
     $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
 } catch (PDOException $e) {
@@ -6,8 +8,12 @@ try {
 }
 
 $token = $_COOKIE['token'];
+//echo json_encode($_COOKIE['token']);
 //var_dump($token);
+// json_encode($_COOKIE['token']);
 if($token){
+    //fwrite(STDOUT, print_r($token, true));
+    
 
 
 
@@ -94,9 +100,10 @@ session_start();
 </div>
 
 
-    <div class="col-span-2 w-10 text-align mx-3">
-    <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">
-</div>
+    <div class="col-span-2 w-10 text-align mx-3" id="searchParentDiv">
+        <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" id="search" type="text" placeholder="Search">
+        <div id="searchDiv"></div>
+    </div>
 
     </div>
 

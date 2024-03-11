@@ -1,3 +1,17 @@
+<?php 
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+}
+
+$token = $_COOKIE['token'];
+//var_dump($token);
+if($token){
+
+session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -120,6 +134,16 @@
     .notification-button:hover {
         color: #0d8bf2;
     }
+
+    #nouvelle_convo{
+        position: relative;
+        bottom: 1rem
+    }
+    .tab-list{
+        display: flex;
+        flex-direction: column;
+    }
+
 </style>
 
 <body>
@@ -160,6 +184,19 @@
                     <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
                 </div>
             </div>
+
+            <div id="nouvelle-discussion" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="fermemodal_discussion()">&times;</span>
+                    
+                    <h1>Nouvelle conversation</h1>
+                    <form method="post" id="nv_discussion" name="nv_discussion">
+                    <input  id="name_chat" type="text" placeholder="Nom de la conversation"><br><br>
+                    <input  id ="nom_personne" type="text" placeholder="Avez qui discuter ?">
+                    <button type="submit">Valider</button>
+                    </form>
+                </div>
+            </div>
             <br>
         </div>
 
@@ -169,26 +206,32 @@
                     <div class="flex">
                         <div class="w-1/4 bg-white overflow-auto" style="max-height: 80vh;">
                             <div class="p-4 border-b">
+                                <button id="nouvelle_convo" onclick ="nouvelledicussion()">Nouvelle conversation</button>
                                 <h2 class="text-lg font-semibold">Discussions</h2>
+                                
                             </div>
-                            <ul class="divide-y">
-                                <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                    <li class="discussion p-4 hover:bg-gray-50 cursor-pointer" data-discussion="<?php echo $i; ?>">Discussion <?php echo $i; ?></li>
-                                <?php endfor; ?>
+                            <ul class="tab-list divide-y" id="divide-y">
+                                <!-- <?php for ($i = 1; $i <= 10; $i++) : ?> -->
+                                    <!-- <li class="discussion p-4 hover:bg-gray-50 cursor-pointer" data-discussion="<?php echo $i; ?>">Discussion <?php echo $i; ?></li> -->
+                                <!-- <?php endfor; ?> -->
                             </ul>
                         </div>
                         <div class="flex-1 p-4 flex flex-col" style="max-height: 80vh;">
                             <div class="border-b p-4">
                                 <h2 class="text-lg font-semibold">Conversation</h2>
                             </div>
-                            <div class="conversation p-4 space-y-4 flex-1 overflow-auto">
+                            <div id="tab_pane" class="tab-pane conversation p-4 space-y-4 flex-1 overflow-auto">
+                                
                             </div>
                             <div class="mt-auto">
-
-                                <input type="text" class="border p-2 w-full" placeholder="message">
-                                <button id="sendMessage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                
+                                <form id="chatbox" method="post">
+                                <input type="text" class="border p-2 w-full" placeholder="message" name="message">
+                                <button type="submit" id="sendMessage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Envoyer
                                 </button>
+
+
                             </div>
 
                         </div>
@@ -197,29 +240,35 @@
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script src="script.js"></script>
-        <script src="script_feed.js"></script>
+        <!-- //<script src="script.js"></script> -->
+        <!-- //<script src="script_feed.js"></script> -->
 </body>
 
 <script>
-    $(document).ready(function() {
-        $('.discussion').click(function() {
-            var idconv = $(this).data('discussion');
-            $.ajax({
-                url: 'ajaxmessagerie.php',
-                type: 'GET',
-                data: {
-                    discussion: idconv
-                },
-                success: function(response) {
-                    $('.conversation').html(response);
-                }
-            });
-        });
-    });
+    // $(document).ready(function() {
+    //     $('.discussion').click(function() {
+    //         var idconv = $(this).data('discussion');
+    //         $.ajax({
+    //             url: 'ajaxmessagerie.php',
+    //             type: 'GET',
+    //             data: {
+    //                 discussion: idconv
+    //             },
+    //             success: function(response) {
+    //                 $('.conversation').html(response);
+    //             }
+    //         });
+    //     });
+    // });
 </script>
 <script src="script_parametre.js"></script>
 
 
 
 </html>
+
+<?php
+} 
+else{
+    header("location: acceuil.html");
+}

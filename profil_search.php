@@ -1,3 +1,19 @@
+<?php 
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+}
+
+$token = $_COOKIE['token'];
+//var_dump($token);
+if($token){
+
+
+
+session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -334,3 +350,9 @@
 
 
 </html>
+
+<?php
+} 
+else{
+    header("location: acceuil.html");
+}

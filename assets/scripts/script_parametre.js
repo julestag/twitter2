@@ -1,4 +1,3 @@
-console.log("test");
 function onglets(evt, tabName) {
     var i, ongletcontent, ongletbutton;
     ongletcontent = document.getElementsByClassName("ongletcontent");
@@ -77,3 +76,7 @@ function notif() {
         modal.style.display = "block";
     }
 }
+
+//var img = document.getElementById("img-profil");
+//localStorage.getItem()
+

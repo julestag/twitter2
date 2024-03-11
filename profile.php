@@ -1,9 +1,15 @@
-<?php
+<?php 
+$token = $_COOKIE['token'];
+if($token){
 
 include('./php1/db.php');
 include('./php1/Infos_user.php'); 
 include('./php1/compteur.php');
 include('./php1/show_tweet.php');
+include('./php1/show_like.php');
+include('./php1/updateBio.php');
+include('./php1/change_pp.php');
+include('./php1/updateProfile.php');
 
 ?>
 <!DOCTYPE html>
@@ -20,6 +26,39 @@ include('./php1/show_tweet.php');
     <title>Profile - tweet_academy</title>
 </head>
 <style>
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 </style>
 
 <body>
@@ -75,7 +114,14 @@ include('./php1/show_tweet.php');
             <div class="container mx-auto px-4">
                 <div class="w-full max-w-xl mx-auto pt-4">
                     <div class="mb-4">
-                        <img class="rounded-full h-32 w-32 mx-auto" src="./images/ok.jpg" alt="Profil">
+
+                    <form id="post_tweet" name="upload_pp" method="post">
+                        <label for="file-input" id="label_pp">
+                                <img id="img_profil" class="rounded-full h-auto w-32 mx-auto" alt="Profil">
+                                <input type="file" id="file-input" class="hidden">
+                        </label>
+                    </form>
+
                     </div>
                     <div class="text-center mb-4">
                         <h1 class="text-xl font-bold"><?php echo htmlspecialchars($userInfo['username']); ?></h1>
@@ -85,19 +131,59 @@ include('./php1/show_tweet.php');
                     <?php
 
                     ?>
+                     
+                     <button onclick="document.getElementById('editProfileModal').style.display='block'">
+                        <i class="fas fa-cog"></i> Éditer le profil
+                    </button>
+
+
+                    <div id="editProfileModal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <span class="close-button" onclick="document.getElementById('editProfileModal').style.display='none'">&times;</span>
+                            <form action="./php1/updateProfile.php" method="post">
+                                <input type="hidden" name="userId" value="1">
+                                Username: <input type="text" name="username" required><br>
+                                @Username: <input type="text" name="at_user_name" required><br>
+                                Bio: <textarea name="bio" required></textarea><br>
+                                <input type="submit" value="Mettre à jour le profil">
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                    <div class="text-center mb-4">
+                    <p class="text-gray-600 mt-2"><?php echo nl2br(htmlspecialchars($userInfo['bio'])); ?></p>
+                    </div>
+
                     <div class="flex justify-around text-center border-t border-gray-300 pt-4">
                         <div>
                             <h2 class="text-lg font-bold"><?php echo $tweetCount; ?></h2>
                             <p class="text-gray-600">Tweets</p>
                         </div>
 
+                        <div id="modalAbonnes" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button" onclick="fermerModalAbonnes()">&times;</span>
+                                <h2>Abonnés</h2>
+                                <div id="listeAbonnes">
+                                    <?php
+                                    foreach ($abonnes as $abonne) {
+                                        echo "<p>" . htmlspecialchars($abonne['username']) . " (ID: " . htmlspecialchars($abonne['userId']) . ")</p>";
+                                    }
+                                    ?>
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div>
-                            <h2 class="text-lg font-bold"><?php echo $compteurabonne; ?></h2>
+                            <h2 class="text-lg font-bold"><?php echo $compteurabonne;?></h2>
                             <p class="text-gray-600">Abonnés</p>
                         </div>
                         <div>
-                            <h2 class="text-lg font-bold"><?php echo $compteurabonnement; ?></h2>
-                            <p class="text-gray-600">Abonnemenst</p>
+                            <h2 class="text-lg font-bold"><?php echo $compteurabonnement;?></h2>
+                            <p class="text-gray-600">Abonnements</p>
                         </div>
                     </div>
                 </div>
@@ -119,17 +205,33 @@ include('./php1/show_tweet.php');
                 </div>
 
 
-<a href="">
+                <a href="">
 
 
                 <div id="Likes" class="ongletcontent">
-                    <h3>Likes</h3>
-                    <p>Contents Likes</p>
-                    <p>Content Likes 2</p>
+                            <h3>Likes</h3>
+                            <?php
+                            foreach ($likedTweets as $tweet) {
+                                echo "<div><p>" . htmlspecialchars($tweet['content']) . "</p><small>Posté le: " . htmlspecialchars($tweet['time']) . "</small></div>";
+                            }
+                            ?>
                 </div>
+                
 
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
                 <script src="./script_parametre.js"></script>
+                <script type="text/javascript">
+                var key_localstorage = "<?php Print($userInfo['profile_picture']); ?>";
+                var balise_img = document.getElementById("img_profil");
+                balise_img.setAttribute("src", localStorage.getItem(key_localstorage));
+                </script>
+                <script src="./style_modal_profile.js"></script>
 
 </body>
 
 </html>
+<?php
+} 
+else{
+    header("location: acceuil.html");
+}
