@@ -1,336 +1,353 @@
-<!DOCTYPE html>
-<html lang="fr">
+<?php
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "enzo", "root");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+}
+$token = $_COOKIE['token'];
+if ($token) {
+    $requete = $bdd -> query("SELECT user.id FROM user INNER JOIN token ON user.id = token.id_user WHERE token.token = '$token'");
+    $result = $requete->fetch();
+    $idUserConnected = $result["id"];
+    if($_GET["at"]){
+        if(substr($_GET["at"], 0, 1) === "@"){
+            $at = $_GET["at"];
+        } else {
+            $at = "@" . $_GET["at"];
+        }
+        $requete = $bdd->query("SELECT * FROM user WHERE at_user_name = '$at'");
+        $result = $requete->fetchAll(PDO::FETCH_ASSOC);
+        $idUser = $result[0]["id"];
+        function getUserInfo($bdd, $idUser){
+            $sql = "SELECT username, at_user_name, profile_picture, bio FROM user WHERE id = :idUser";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['idUser' => 7]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/output.css">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <title>Profile - tweet_academy</title>
-</head>
-<style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
+        function compteurtweet($bdd, $idUser){
+            $sql = "SELECT COUNT(*) AS 'tweet_count' FROM tweet WHERE id_user = :idUser";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['idUser' => $idUser]);
+            $row = $stmt->fetch();
+            return $row['tweet_count'];
+        }
+        $tweetCount = compteurtweet($bdd, $idUser);
+
+        function compteurabonne($bdd, $idUser){
+            $sql = "SELECT COUNT(*) AS 'subscriber_count' FROM follow WHERE id_follow = :idUser";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['idUser' => $idUser]);
+            $row = $stmt->fetch();
+            return $row['subscriber_count'];
+        }
+        $compteurabonne = compteurabonne($bdd, $idUser);
+
+        function compteurabonnement($bdd, $idUser){
+            $sql = "SELECT COUNT(*) AS 'abonnement' from follow where id_user = :idUser";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['idUser' => $idUser]);
+            $row = $stmt->fetch();
+            return $row['abonnement'];
+        }
+        $compteurabonnement = compteurabonnement($bdd, $idUser);
+
+        function showtweet($bdd, $idUser){
+            $sql = "SELECT content as tweet FROM tweet WHERE id_user = :userId ORDER BY time DESC";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['userId' => $idUser]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        $tweets = showtweet($bdd, $idUser);
+
+        function showAbonnes($bdd, $idUser){
+            $sql = "SELECT u.username, u.id as userId
+            FROM user u
+            JOIN follow f ON u.id = f.id_follow
+            WHERE f.id_user = :userId
+            ORDER BY f.time DESC";
+            $stmt = $bdd->prepare($sql);
+            $stmt->execute(['userId' => $idUser]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        $abonnes = showAbonnes($bdd, $idUser);
     }
+?>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="src/output.css">
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <title>Profile - tweet_academy</title>
+    </head>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-    }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+        }
 
-    .close-button {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-    .close-button:hover,
-    .close-button:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-    .button-settings {
-        position: relative;
-        top: 5vh;
-        background-color: grey;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+        .button-settings {
+            position: relative;
+            top: 5vh;
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-    .button-settings:hover {
-        background-color: #0d8bf2;
-    }
+        .button-settings:hover {
+            background-color: #0d8bf2;
+        }
 
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    .ongletcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-top: none;
-        margin-top: 20px;
-    }
+        .ongletcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+            margin-top: 20px;
+        }
 
-    .ongletbutton {
-        background-color: #f1f1f1;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
+        .ongletbutton {
+            background-color: #f1f1f1;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
 
-    .ongletbutton:hover {
-        background-color: #ddd;
-    }
+        .ongletbutton:hover {
+            background-color: #ddd;
+        }
 
-    .ongletbutton.active {
-        background-color: #ccc;
-    }
+        .ongletbutton.active {
+            background-color: #ccc;
+        }
 
-    body {
-        background-color: #f0f0f0;
-    }
+        body {
+            background-color: #f0f0f0;
+        }
 
-    .notification-button {
-        position: relative;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 32px;
-        color: #333;
-        top: 10vh;
-        margin-left: 3vh;
-    }
+        .notification-button {
+            position: relative;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 32px;
+            color: #333;
+            top: 10vh;
+            margin-left: 3vh;
+        }
 
-    .notification-button:hover {
-        color: #0d8bf2;
-    }
+        .notification-button:hover {
+            color: #0d8bf2;
+        }
 
-    #follow-button {
-        color: #3399FF;
-        font-family: "Helvetica";
-        font-size: 10pt;
-        background-color: #ffffff;
-        border: 1px solid;
-        border-color: #3399FF;
-        border-radius: 3px;
-        width: 85px;
-        height: 30px;
-        position: absolute;
-        top: 50px;
-        left: 50px;
-        cursor: hand;
-    }
-</style>
+        #follow-button {
+            color: #3399FF;
+            font-family: "Helvetica";
+            font-size: 10pt;
+            background-color: #ffffff;
+            border: 1px solid;
+            border-color: #3399FF;
+            border-radius: 3px;
+            width: 85px;
+            height: 30px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            cursor: hand;
+        }
+    </style>
 
-<body>
-    <div class="grid grid-col-8">
-        <div class="menu col-span-2 w-10 text-align mx-3">
-            <img class="w-10" src="./images/logs.png" alt="Logo twitter noir">
-            <br>
-            <div class="flex items-center">
-                <img class="w-8" src="./images/home.png" alt="Logo twitter noir">
+    <body>
+        <div class="grid grid-col-8">
+            <div class="menu col-span-2 w-10 text-align mx-3">
+                <img class="w-10" src="./images/logs.png" alt="Logo twitter noir">
+                <br>
+                <div class="flex items-center">
+                    <img class="w-8" src="./images/home.png" alt="Logo twitter noir">
 
-                <a class="text-align mx-6" href="#">Home</a>
-            </div>
-            <br>
-            <div class="flex items-center">
-                <img class="w-8" src="./images/profile.png" alt="Logo twitter noir">
-
-                <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
-            </div>
-            <button class="button-settings" onclick="buttonreglage()">
-                <i class="fas fa-cog"></i> Réglages
-            </button>
-
-            <button class="notification-button" onclick="notif()">
-                <i class="fas fa-bell"></i>
-            </button>
-
-            <div id="notificationsModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="notif()">&times;</span>
-                    <h2>Notifications</h2>
-                    <p>0 Notifications</p>
+                    <a class="text-align mx-6" href="fil_actu.php">Home</a>
                 </div>
-            </div>
-            <div id="settingsModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="fermemodal()">&times;</span>
-                    <h2>Personnaliser la page</h2>
-                    <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#CCCCCC')">Gris</button>
-                    <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#a4d4f4')">blue</button>
-                    <h2>Changer la Font-Size</h2>
-                    <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="incremsize()">Augmenter la taille de la police</button>
-                    <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
+                <br>
+                <div class="flex items-center">
+                    <img class="w-8" src="./images/profile.png" alt="Logo twitter noir">
+
+                    <button class="text-align mx-6 data-target" id="messagerie.php"><a href="#">Messages</a></button>
                 </div>
-            </div>
-            <br>
-        </div>
-        <div class="bg-gray-100" style="position: relative;left: 30VH;bottom: 35vh;padding: 10vh">
-            <div class="container mx-auto px-4">
-                <div class="w-full max-w-xl mx-auto pt-4">
-                    <div class="mb-4">
-                        <img class="rounded-full h-32 w-32 mx-auto" src="./images/ok.jpg" alt="Profil">
+                <button class="button-settings" onclick="buttonreglage()">
+                    <i class="fas fa-cog"></i> Réglages
+                </button>
+
+                <button class="notification-button" onclick="notif()">
+                    <i class="fas fa-bell"></i>
+                </button>
+
+                <div id="notificationsModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="notif()">&times;</span>
+                        <h2>Notifications</h2>
+                        <p>0 Notifications</p>
                     </div>
-                    <div class="text-center mb-4">
-                        <img src="./images/broche-de-localisation.png" style="width: 8%;position: relative;top: 10vh;" alt="">
-                        <h1 class="text-xl font-bold">Lion d'afrique</h1>
-                        <p class="text-gray-600">@LionsAfricaParis</p>
-                    </div>
-                    <div>
-                        <img style="width: 5%;" src="./images//brc" alt="">
-                        <p>Paris</p>
-                    </div>
-                    <button style="position: relative;left: 10vh;" id="follow-button">+ Follow</button>
-                    <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                </div>
+                <div id="settingsModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="fermemodal()">&times;</span>
+                        <h2>Personnaliser la page</h2>
+                        <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#CCCCCC')">Gris</button>
+                        <button style="border: 1px solid black;border-radius: 3vh;padding: 1vh;" onclick="changeBackgroundColor('#a4d4f4')">blue</button>
+                        <h2>Changer la Font-Size</h2>
+                        <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="incremsize()">Augmenter la taille de la police</button>
+                        <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
                     </div>
                 </div>
                 <br>
-                <div>
-                    <img style="position: relative;bottom: 4vh;width: 4.6%;left: 50vh;" src="./images/email.png" style="width: 5%;height: 20%;position:relative;bottom: 60vh;" alt="">
+            </div>
+            <div class="bg-gray-100" style="position: relative;left: 30VH;bottom: 35vh;padding: 10vh">
+                <div class="container mx-auto px-4">
+                    <div class="w-full max-w-xl mx-auto pt-4">
+                        <div class="mb-4 " id="div_img_profile">
+                            <script>
+                           var div_pp = document.getElementById('div_img_profile');
+                           var img = document.createElement("img");
+                           img.src = localStorage.getItem('<?php echo htmlspecialchars($result[0]['profile_picture']); ?>') 
+                           img.setAttribute('class',"rounded-full h-32 w-32 mx-auto");
+                           div_pp.append(img);
+                            </script>
+                            <!-- ici photo profil -->
+                            <!-- <img class="rounded-full h-32 w-32 mx-auto" src="<script></script" alt="Profil"> -->
+                        </div>
+                        <div class="text-center mb-4">
+                            <h1 class="text-xl font-bold"><?php echo htmlspecialchars($result[0]['username']); ?></h1>
+                            <p class="text-gray-600"><?php echo htmlspecialchars($result[0]['at_user_name']); ?></p>
+                            <p class="text-gray-600">Bio : <?php echo htmlspecialchars($result[0]['bio']); ?></p>
+
+                        </div>
+
+                        <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                            <div>
+                                <h2 class="text-lg font-bold"><?php echo $tweetCount; ?></h2>
+                                <p class="text-gray-600">Tweets</p>
+                            </div>
+
+                            <div id="modalAbonnes" class="modal">
+                                <div class="modal-content">
+                                    <span class="close-button" onclick="fermerModalAbonnes()">&times;</span>
+                                    <h2>Abonnés</h2>
+                                    <div id="listeAbonnes">
+                                        <?php
+                                        foreach ($abonnes as $abonne) {
+                                            echo "<p>" . htmlspecialchars($abonne['username']) . " (ID: " . htmlspecialchars($abonne['userId']) . ")</p>";
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2 class="text-lg font-bold"><?php echo $compteurabonne; ?></h2>
+                                <p class="text-gray-600">Abonnés</p>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold"><?php echo $compteurabonnement; ?></h2>
+                                <p class="text-gray-600">Abonnements</p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
+                <button style="position: relative;left: 10vh;" id="follow-button" data-user="<?php echo $idUser ?>" data-userConnected ="<?php echo $idUserConnected ?>">+ Follow</button>
+                <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                </div>
+            </div>
+            <br>
+            <div>
+                <img style="position: relative;bottom: 4vh;width: 4.6%;left: 50vh;" src="./images/email_copie.png" style="width: 5%;height: 20%;position:relative;bottom: 60vh;" alt="">
+
+            </div>
 
 
-                <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-                <script src="script.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+            <script src="script.js"></script>
 
-</body>
-<script>
-    function onglets(evt, tabName) {
-        var i, ongletcontent, ongletbutton;
-        ongletcontent = document.getElementsByClassName("ongletcontent");
-        for (i = 0; i < ongletcontent.length; i++) {
-            ongletcontent[i].style.display = "none";
+    </body>
+
+   
+    </html>
+    <script>
+        function afficherModalAbonnes() {
+            document.getElementById('modalAbonnes').style.display = 'block';
         }
-        ongletbutton = document.getElementsByClassName("ongletbutton");
-        for (i = 0; i < ongletbutton.length; i++) {
-            ongletbutton[i].className = ongletbutton[i].className.replace(" active", "");
+
+        function fermerModalAbonnes() {
+            document.getElementById('modalAbonnes').style.display = 'none';
         }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementsByClassName("ongletbutton")[0].click();
-    });
+        //document.getElementById('compteurAbonnes').addEventListener('click', afficherModalAbonnes);
+    </script>
 
-    //
+    </html>
+    <script>
+        $(document).ready(function() {
+            $('#follow-button').click(function() {
+                let button = document.getElementById("follow-button");
+                let userId = button.parseInt(getAttribute('data-userConnected')); // personne connecté
+                let followId =  button.parseInt(getAttribute('data-user')); // personne ciblé
 
-    function buttonreglage() {
-        document.getElementById("settingsModal").style.display = "block";
-    }
-
-    function fermemodal() {
-        document.getElementById("settingsModal").style.display = "none";
-    }
-
-    function changeBackgroundColor(color) {
-        document.body.style.backgroundColor = color;
-        localStorage.setItem('backgroundColor', color);
-        fermemodal();
-
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        var sauvegardebg = localStorage.getItem('backgroundColor');
-        if (sauvegardebg) {
-            document.body.style.backgroundColor = sauvegardebg;
-        }
-        var sauvegardefs = localStorage.getItem('fontSize');
-        if (sauvegardefs) {
-            document.body.style.fontSize = `${sauvegardefs}px`;
-        }
-        document.getElementsByClassName("ongletbutton")[0].click();
-    });
-
-
-
-
-    //
-    ''
-
-    function paramsize(fontSize) {
-        document.body.style.fontSize = `${fontSize}px`;
-        localStorage.setItem('fontSize', fontSize);
-    }
-
-    function incremsize() {
-        var currentSize = parseFloat(localStorage.getItem('fontSize') || window.getComputedStyle(document.body).fontSize);
-        var newSize = currentSize + 1;
-        paramsize(newSize);
-    }
-
-    function decremsize() {
-        var currentSize = parseFloat(localStorage.getItem('fontSize') || window.getComputedStyle(document.body).fontSize);
-        var newSize = currentSize - 1;
-        paramsize(newSize);
-    }
-    document.addEventListener("DOMContentLoaded", function() {
-        var enregistresize = localStorage.getItem('fontSize');
-        if (enregistresize) {
-            paramsize(parseFloat(enregistresize));
-        }
-        document.getElementsByClassName("ongletbutton")[0].click();
-    });
-
-    function notif() {
-        var modal = document.getElementById("notificationsModal");
-        if (modal.style.display === "block") {
-            modal.style.display = "none";
-        } else {
-            modal.style.display = "block";
-        }
-    }
-    $(document).ready(function() {
-
-        $("#follow-button").click(function() {
-            if ($("#follow-button").text() == "+ Follow") {
-                // *** State Change: To Following ***      
-                // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms    
-                $("#follow-button").animate({
-                    width: '-=10px'
-                }, 100, 'easeInCubic', function() {});
-
-                // then now we want the button to expand out to it's full state
-                // The left translation is to keep the button centred with it's longer width
-                $("#follow-button").animate({
-                    width: '+=45px',
-                    left: '-=15px'
-                }, 600, 'easeInOutBack', function() {
-                    $("#follow-button").css("color", "#fff");
-                    $("#follow-button").text("Following");
-
-                    // Animate the background transition from white to green. Using JQuery Color
-                    $("#follow-button").animate({
-                        backgroundColor: "#2EB82E",
-                        borderColor: "#2EB82E"
-                    }, 1000);
+                $.post('./php1/addFollower.php', {
+                    userId: userId,
+                    followId: followId
+                }, function(data) {
+                    alert(data);
                 });
-            } else {
-
-                // *** State Change: Unfollow ***     
-                // Change the button back to it's original state
-                $("#follow-button").animate({
-                    width: '-=25px',
-                    left: '+=15px'
-                }, 600, 'easeInOutBack', function() {
-                    $("#follow-button").text("+ Follow");
-                    $("#follow-button").css("color", "#3399FF");
-                    $("#follow-button").css("background-color", "#ffffff");
-                    $("#follow-button").css("border-color", "#3399FF");
-                });
-            }
+            });
         });
-    });
-</script>
+    </script>
 
-
-
-</html>
+<?php
+} else {
+    header("location: acceuil.html");
+}
