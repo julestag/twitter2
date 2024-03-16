@@ -25,26 +25,30 @@
                     <div class="form-popup" id="signupForm">
                         <form class="form-container" method="POST" onsubmit="return sendData();">
                             <h2>Remplissez vos informations</h2>
-                            <label for="lastname">
-                                <strong>Nom / Prénom</strong>
+                            <label for="names">
+                                <strong>Nom et Prénom</strong>
                             </label>
-                            <input type="text" id="lastname" placeholder="Votre Nom et Prénom" name="lastname" required />
+                            <input type="text" id="names" placeholder="Votre Nom et Prénom" name="names" required />
                             <label for="pseudo">
                                 <strong>Pseudo</strong>
                             </label>
-                            <input type="text" id="pseudo" placeholder="Pseudo" name="pseudo" required />
+                            <input type="text" id="pseudo" placeholder="Votre Pseudo" name="pseudo" required />
                             <label for="birthdate">
                                 <strong>Date de Naissance</strong>
                             </label>
                             <input type="date" id="birthdate" name="birthdate" required />
-                            <label for="email">
+                            <label for="city">
+                                <strong>Ville</strong>
+                            </label>
+                            <input type="text" id="city" name="city" placeholder="Votre Ville"/>
+                            <label for="mail">
                                 <strong>E-mail</strong>
                             </label>
-                            <input type="email" id="email" placeholder="Votre Email" name="email" required />
-                            <label for="pwd">
+                            <input type="mail" id="mail" placeholder="Votre Email" name="mail" required />
+                            <label for="password">
                                 <strong>Mot de passe</strong>
                             </label>
-                            <input type="password" id="pwd" placeholder="Votre Mot de passe" name="pwd" required />
+                            <input type="password" id="password" placeholder="Votre Mot de passe" name="password" required />
                             <button type="submit" class="btn" onclick="closeSignupForm()">S'inscrire</button>
                             <button type="button" class="btn cancel" onclick="closeSignupForm()">Fermer</button>
                         </form>
@@ -55,16 +59,16 @@
                 <button id="signinButton" class="open-button" onclick="openSigninForm()">Se connecter</button><br><br>
                 <div class="login-popup">
                     <div class="form-popup" id="signinForm">
-                      <form class="form-container" method="POST" onsubmit="return checkData();">
+                      <form class="form-container" method="POST" action = "signin.php">
                         <h2>Entrez vos informations</h2>
-                        <label for="emailbis">
+                        <label for="mailbis">
                           <strong>E-mail</strong>
                         </label>
-                        <input type="text" id="emailbis" placeholder="Votre Email" name="emailbis" required />
-                        <label for="pwdbis">
+                        <input type="text" id="mailbis" placeholder="Votre Email" name="mailbis" required />
+                        <label for="passwordbis">
                           <strong>Mot de passe</strong>
                         </label>
-                        <input type="password" id="pwdbis" placeholder="Votre Mot de passe" name="pwdbis" required />
+                        <input type="password" id="passwordbis" placeholder="Votre Mot de passe" name="passwordbis" required />
                         <button type="submit" class="btn" onclick="closeSigninForm()">Connecter</button>
                         <button type="button" class="btn cancel" onclick="closeSigninForm()">Fermer</button>
                       </form>
@@ -79,6 +83,6 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="signin.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

@@ -68,7 +68,7 @@
       width:          1px;       
  } */
 
- #post_tweet > input{
+ #post_tweet input{
    display: none;
  }
  #post_tweet > label{

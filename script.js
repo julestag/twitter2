@@ -15,13 +15,29 @@ function closeSignupForm() {
 }
 
 function sendData(){
-  var lastname = document.getElementById("lastname").value;
+  var names = document.getElementById("names").value;
   var pseudo = document.getElementById("pseudo").value;
   var birthdate = document.getElementById("birthdate").value;
-  var email =document.getElementById("email").value;
-  var pwd =document.getElementById("pwd").value;
-  $.post("signup.php",{lastname: lastname, pseudo: pseudo, birthdate: birthdate, email: email, pwd:pwd},function(response){
+  var city = document.getElementById("city").value;
+  var mail =document.getElementById("mail").value;
+  var password =document.getElementById("password").value;
+  $.ajax({
+    type: 'POST',
+    url: 'signup.php',
+    dataType: 'json',
+    data: {
+      names:names,
+      pseudo:pseudo,
+      birthdate:birthdate,
+      city:city,
+      mail:mail,
+      password:password
+    },
+    
+    success: function(response){
+      console.log(response);
       let responseString = JSON.parse(response);
+      console.log(responseString);
       if(responseString == "error email"){
         alert("Cette adresse mail est déja associée a un compte.");
         console.log(responseString);
@@ -30,27 +46,39 @@ function sendData(){
         alert("Vous n'avez pas l'age requis pour créer un compte.");
         console.log(responseString);
       }
-    })
+      if(responseString == "error pseudo"){
+        alert("Ce pseudo est déja utilisé par un autre utilisateur.");
+      }
+      if(responseString == "no errors"){
+        alert("Inscription réussie !");
+      }
+    }
+  });
+    
   return false;
 }
 
 function checkData(){
-  var email =document.getElementById("emailbis").value;
-  var pwd =document.getElementById("pwdbis").value;
+  var mailbis =document.getElementById("mailbis").value;
+  var passwordbis =document.getElementById("passwordbis").value;
+  // consosle.log("test");
+  console.log(mailbis);
   $.ajax({
     type: 'POST',
     url: 'signin.php',
+    dataType: 'json',
     data: {
-      email:email,
-      pwd:pwd
+      mailbis:mailbis,
+      passwordbis:passwordbis
     },
     success: function(response){
       let responseString = JSON.parse(response);
+      // console.log("test");
       if(responseString == "error no account"){
         alert("Ce compte n'existe pas");
-        console.log(responseString);
-      } else {
-        console.log(responseString);
+      }
+      if (responseString == "open session"){
+        alert("Ce compte existe");
       }
     }
   });

@@ -1,4 +1,25 @@
-<?php session_start() ?>
+<?php 
+define('STDOUT', fopen('php://stdout', 'w'));
+
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+}
+
+$token = $_COOKIE['token'];
+//echo json_encode($_COOKIE['token']);
+//var_dump($token);
+// json_encode($_COOKIE['token']);
+if($token){
+    //fwrite(STDOUT, print_r($token, true));
+    
+
+
+
+session_start(); 
+?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,15 +41,15 @@
 </div>
 <br>
 <div class="flex items-center">
-    <img class="w-8" src="images/messages.png" alt="Logo twitter noir">
+    <img class="w-8" src="images/messages.png" alt="Logo messagerie">
 
-    <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
+    <button class="text-align mx-6 data-target" id="message"><a href="messagerie.php">Messages</a></button>
 </div>
 <br>
 <div class="flex items-center">
     <img class="w-8" src="images/profile.png" alt="Logo twitter noir">
 
-    <a class="text-align mx-6" href="#">Profile</a>
+    <a class="text-align mx-6" href="profile.php">Profile</a>
     
 </div>
 <div class="flex items-center mx-1 my-5">
@@ -51,7 +72,7 @@
             </li>
         </ul>
 
-        <form id="post_tweet">
+        <form id="post_tweet" method="post">
             <textarea placeholder="Write your tweet here.." id="tweet" maxlength="140"></textarea>
             <hr class="hr_post w-9/12 ml-20">
 
@@ -62,28 +83,43 @@
 
             
            <input type="file" id="file-input">
-            <button type="submit" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</button>
+            <button id="post_button" type="submit" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</button>
         </form>
 
         <hr class="w-full mt-5">
         <div class="tab-pane h-screen flex justify-center grid-cols-2 mb-4 w-1/2 p-4 ">
-            <div data-content id="tab1" class="tab-content">
-                <p>gdzdhhihuizhuiah</p>
+            <div data-content id="tab1" class="tab-content active">
+                <div id="tweetsDiv"></div>
             </div>
     
             <div data-content id="tab2" class="tab-content">
-                <p>test2</p>
             </div>
 
     </div>
 </div>
 
 
-    <div class="col-span-2 w-10 text-align mx-3">
-    <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">
-</div>
+    <div class="col-span-2 w-10 text-align mx-3" id="searchParentDiv">
+        <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" id="search" type="text" placeholder="Search">
+        <div id="searchDiv"></div>
+    </div>
 
     </div>
+
+    <div id="settingsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="fermemodal()">&times;</span>
+                    <h2>Espace Commentaire</h2>
+                   
+                    <form method="POST" id="response_tweet">
+                        <textarea placeholder="Write your tweet here.." id="response_tweet_textarea" maxlength="140"></textarea>
+                        <button type="submit" style="border: 1px solid black; border-radius: 3vh; padding: 1vh;">Valider</button>
+                    </form>
+                    <div id="div_content_com"><div> 
+                </div>
+            </div>
+            <br>
+        </div>
 
     
 
@@ -93,3 +129,8 @@
     <script src="script_feed.js"></script>
 </body>
 </html>
+<?php
+} 
+else{
+    header("location: acceuil.html");
+}
