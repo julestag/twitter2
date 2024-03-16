@@ -1,20 +1,16 @@
 <?php
-
-include("./db.php");
-if (isset($_POST['userId']) && isset($_POST['followId'])) {
-    $userId = $_POST['userId'];
-    $followId = $_POST['followId'];
-    $check = $conn->prepare("SELECT * FROM follow WHERE id_user = ? AND id_follow = ?");
-    $check->execute([$userId, $followId]);
-    if ($check->rowCount() > 0) {
-        echo "Déja abonné.";
-    } else {
-        $query = $conn->prepare("INSERT INTO follow (id_user, id_follow, time) VALUES (?, ?, NOW())");
-        if ($query->execute([$userId, $followId])) {
-            echo "Abonnement réussi.";
-        } else {
-            echo "Erreur";
-        }
-    }
+$userId = $_POST['userId']; 
+$followId = $_POST['followId']; 
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "anis", "anis");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }
-
+$sql = "INSERT INTO follow (id_user, id_follow) VALUES (:userId, :followId)";
+$stmt = $bdd->prepare($sql);
+$stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+$stmt->bindParam(':followId', $followId, PDO::PARAM_INT);
+if ($stmt->execute()) {
+    echo "Vous vous êtes abonné ";
+} 
+?>
