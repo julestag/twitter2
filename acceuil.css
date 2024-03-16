@@ -158,16 +158,21 @@ a {
 
 @media (max-width:1280px) {
 
-
     img {
-        visibility: hidden;
+        display: none;
     }
 
+    .right-side {
+        display: block;
+    }
 
     .all {
-        position: relative;
-        margin-right: 25%;
-        top: 14vh;
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
+        height: auto;
+        display: block;
+        margin-top: 15%;
     }
 
     #conditions {
@@ -175,15 +180,79 @@ a {
     }
 
     .logo {
-        visibility: visible;
-        width: 60%;
-        height: 20%;
-        top: -10%;
-        left: 8vh;
-        margin-left: 171%;
+        display: none;
+    }
 
+    .left-side {
+        display: none;
+    }
 
+    .all {
+        vertical-align: middle;
     }
 }
+
+@media (max-width:768px) {
+    .all {
+        margin-top: 15%;
+    }
+    .form-popup {
+        top: 5%;
+    }
+
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background: white;
+}
+
+.form-container .btn {
+    background-color: black;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 0px;
+    border-radius: 10px;
+}
+
+.form-container .cancel {
+    background-color: black;
+    color: white;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 0px;
+}
+}
+
+@media (max-width:426px) {
+    #signupButton {
+        font-size: 0.75em;
+    }
+    #signinButton {
+        font-size: 0.75em;
+    }
+    h2 {
+        font-size: 1.125em;
+    }
+    h1 {
+        font-size: 1.875em;
+    }
+    p {
+        font-size: 0.9em;
+    }
+    .all {
+        margin-top: 15%;
+    }
+}
+
+
 #d1{background-color: #EECC4499;}
 #d2{background-color: #44EEAA99;}

@@ -181,7 +181,7 @@ function tabs (nav){
                     var contentTemp = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
                     var content = contentTemp.replace(/@(\w+)/g, `<a href='profil_search.php?at=$1'>@$1</a>`)
                     h1.innerHTML = element['username'];
-                    p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name']}'>` + element['at_user_name'] + `</a>`;
+                    p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -197,7 +197,7 @@ function tabs (nav){
                     //console.log(element['content']);
                     //console.log(element);
                     h1.innerHTML = element['username'];
-                    p.innerHTML = element['at_user_name'];
+                    p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -474,20 +474,16 @@ document.addEventListener('click', function(e){
                    img.setAttribute('id','pdp');
                    var content = value_final[0].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
                    if(value_final[0].includes("image_")){
-                       //alert("ok");
-                      // console.log(localStorage.getItem(element['content']));
                        var img = document.createElement("img");
                        img.id = 'image';
                        img.setAttribute("src",localStorage.getItem(value_final[0]));
                        p.innerHTML = value_final[2] + " : ";
-                      // tweetsDiv.appendChild(p);
                        tweetsDiv.appendChild(img);
                    }else{
                        if(value_final[0].includes("#")){
                            let temp = value_final[0].replace(/#/g, "%§!%#");
                            let words = temp.split(/\s|%§!%/);
                            let hashtags = words.filter((word) => word.startsWith("#"));
-                           // console.log(hashtags);
                            if(hashtags){
                                hashtags.forEach(function(elementBis) {
                                    $.ajax({
@@ -501,10 +497,6 @@ document.addEventListener('click', function(e){
                            }
                        
                        var content = value_final[0].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
-                    //   console.log(content);
-                                                                   // console.log(element['content']);
-                       //console.log(element);
-                       
                        h1.innerHTML = value_final[3];
                        p.innerHTML = value_final[2];
                        p1.innerHTML = content;
@@ -516,13 +508,7 @@ document.addEventListener('click', function(e){
                        div_tweet_response_modal.append(br1);
                        div_tweet_response_modal.append(retweet);
                        div_tweet_response_modal.append(img_com);
-                      // console.log(element['content']);
-
-
-                      
                        }else{
-                                               // console.log(element['content']);
-                       //console.log(element);
                        h1.innerHTML = value_final[3];
                        p.innerHTML = value_final[2];
                        p1.innerHTML = content;
@@ -555,8 +541,12 @@ document.addEventListener('click', function(e){
     }
   })
 
+  function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+}
 
-
-
-
-   
+const disconnectionButton = document.getElementById("disconnectionButton");
+disconnectionButton.addEventListener("click", function(){
+    deleteCookie("token");
+    window.location.replace('acceuil.html');
+})

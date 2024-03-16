@@ -10,11 +10,7 @@ if ($token) {
     $result = $requete->fetch();
     $idUserConnected = $result["id"];
     if($_GET["at"]){
-        if(substr($_GET["at"], 0, 1) === "@"){
-            $at = $_GET["at"];
-        } else {
-            $at = "@" . $_GET["at"];
-        }
+        $at = "@" . $_GET["at"];
         $requete = $bdd->query("SELECT * FROM user WHERE at_user_name = '$at'");
         $result = $requete->fetchAll(PDO::FETCH_ASSOC);
         $idUser = $result[0]["id"];

@@ -1,4 +1,6 @@
 <?php 
+define('STDOUT', fopen('php://stdout', 'w'));
+
 try {
     $bdd = new PDO("mysql:host=localhost;dbname=twitter", "enzo", "root");
 } catch (PDOException $e) {
@@ -43,7 +45,7 @@ if($token){
 </div>
 <div class="flex items-center mx-1 my-5">
   
-    <a href="#_" class="inline-block px-12 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">POST</a>
+    <a class="inline-block px-12 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0" id="disconnectionButton">Déconnexion</a>
 </div>
 
     </div>
@@ -77,23 +79,38 @@ if($token){
 
         <hr class="w-full mt-5">
         <div class="tab-pane h-screen flex justify-center grid-cols-2 mb-4 w-1/2 p-4 ">
-            <div data-content id="tab1" class="tab-content">
-                <p>gdzdhhihuizhuiah</p>
+            <div data-content id="tab1" class="tab-content active">
+                <div id="tweetsDiv"></div>
             </div>
     
             <div data-content id="tab2" class="tab-content">
-            <div id="tweetsDiv"></div>
             </div>
 
     </div>
 </div>
 
 
-    <div class="col-span-2 w-10 text-align mx-3">
-    <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" id="searchBar" type="text" placeholder="Search">
-</div>
+    <div class="col-span-2 w-10 text-align mx-3" id="searchParentDiv">
+        <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" id="search" type="text" placeholder="Search">
+        <div id="searchDiv"></div>
+    </div>
 
     </div>
+
+    <div id="settingsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="fermemodal()">&times;</span>
+                    <h2>Espace Commentaire</h2>
+                   
+                    <form method="POST" id="response_tweet">
+                        <textarea placeholder="Write your tweet here.." id="response_tweet_textarea" maxlength="140"></textarea>
+                        <button type="submit" style="border: 1px solid black; border-radius: 3vh; padding: 1vh;">Valider</button>
+                    </form>
+                    <div id="div_content_com"><div> 
+                </div>
+            </div>
+            <br>
+        </div>
 
     
 
@@ -107,8 +124,4 @@ if($token){
 } 
 else{
     header("location: acceuil.html");
-}
-if(isset($_POST['search'])){
-    $search = $_POST['search'];
-    $requete = $conn->prepare("SELECT hashtag FROM hashtag_list WHERE hashtag LIKE '$search%'");
 }
