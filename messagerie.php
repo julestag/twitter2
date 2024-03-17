@@ -18,13 +18,17 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/output.css">
+    <!-- <link rel="stylesheet" href="src/output.css"> -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Profile - tweet_academy</title>
 </head>
 <style>
+    body{
+        padding: 0;
+        margin:0;
+    }
     .buttonok:hover {
         background-color: rosybrown;
         color: white;
@@ -115,10 +119,6 @@ session_start();
         background-color: #ccc;
     }
 
-    body {
-        background-color: #f0f0f0;
-    }
-
     .notification-button {
         position: relative;
         background-color: transparent;
@@ -146,9 +146,9 @@ session_start();
 </style>
 
 <body>
-    <div class="grid grid-col-8">
-        <div class="menu col-span-2 w-10 text-align mx-3">
-            <img class="w-10" src="./images/logs.png" alt="Logo twitter noir">
+    <div class="grid grid-cols-1">
+        <div class="menu hidden flex justify-between lg:block lg:flex lg:justify-between" id="navbar">
+            <img class="w-10  lg:block" src="./images/logs.png" alt="Logo twitter noir">
             <br>
             <div class="flex items-center">
                 <img class="w-8" src="./images/home.png" alt="Logo twitter noir">
@@ -159,18 +159,19 @@ session_start();
                 <img class="w-8" src="./images/profile.png" alt="Logo twitter noir">
                 <button class="text-align mx-6 data-target" id="message"><a href="profile.php">Profile</a></button>
             </div>
-            <button class="button-settings" onclick="buttonreglage()">
+            <img src='./images/close.png' id="close_navbar" class="lg:hidden">
+            <!-- <button class="button-settings" onclick="buttonreglage()">
                 <i class="fas fa-cog"></i> Réglages
-            </button>
-            <button class="notification-button" onclick="notif()">
+            </button> -->
+            <!-- <button class="notification-button" onclick="notif()">
                 <i class="fas fa-bell"></i>
-            </button>
-            <div id="notificationsModal" class="modal">
+            </button> -->
+            <!-- <div id="notificationsModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button" onclick="notif()">&times;</span>
                     <h2>Notifications</h2>
                     <p>0 Notifications</p>
-                </div>
+                </div> -->
             </div>
             <div id="settingsModal" class="modal">
                 <div class="modal-content">
@@ -190,22 +191,24 @@ session_start();
                     
                     <h1>Nouvelle conversation</h1>
                     <form method="post" id="nv_discussion" name="nv_discussion">
-                    <input  id="name_chat" type="text" placeholder="Nom de la conversation"><br><br>
-                    <input  id ="nom_personne" type="text" placeholder="Avez qui discuter ?">
+                    <input  id="name_chat" type="text" placeholder="Nom de la conversation" class="max-w-full"><br><br>
+                    <input  id ="nom_personne" type="text" placeholder="Avez qui discuter ?"  class="max-w-full">
                     <button type="submit">Valider</button>
                     </form>
                 </div>
             </div>
             <br>
         </div>
+        <!-- <-- fin div menu --> 
 
-        <div class="bg-gray-100" style="position: relative;left:40vh;bottom:40vh">
-            <div class="flex h-screen justify-center items-center">
-                <div class="container mx-auto">
-                    <div class="flex">
-                        <div class="w-1/4 bg-white overflow-auto" style="max-height: 80vh;">
+        <div>
+            <div class="flex">
+                <div class="container max-h-screen max-w-full">
+                    <div class="w-full lg:grid lg:grid-cols-3">
+                        <div class="hidden lg:block bg-white overflow-auto" id="div_convo">
                             <div class="p-4 border-b">
                                 <button id="nouvelle_convo" onclick ="nouvelledicussion()">Nouvelle conversation</button>
+                                <img src="./images/close.png" class="float-right cursor-pointer hidden" id="croix_close">
                                 <h2 class="text-lg font-semibold">Discussions</h2>
                                 
                             </div>
@@ -215,18 +218,20 @@ session_start();
                                 <!-- <?php endfor; ?> -->
                             </ul>
                         </div>
-                        <div class="flex-1 p-4 flex flex-col" style="max-height: 80vh;">
-                            <div class="border-b p-4">
-                                <h2 class="text-lg font-semibold">Conversation</h2>
+                        <div class="flex-col col-span-2" id="div_message_content">
+                            <div class="p-4">
+                                <img src="./images/twitter_messagerie.png" class="lg:hidden cursors-pointer float-right" id="twitter_convo">
+                                <img src="./images/hamburger_logo.png" class="lg:hidden cursor-pointer" id="menu_hamburger_convo">
+                                <h2 class="text-lg font-semibold text-center" id="h2_nom_convo">Nom Conversation</h2>
                             </div>
-                            <div id="tab_pane" class="tab-pane conversation p-4 space-y-4 flex-1 overflow-auto">
+                            <div id="tab_pane" class="tab-pane conversation">
                                 
                             </div>
                             <div class="mt-auto">
                                 
                                 <form id="chatbox" method="post">
-                                <input type="text" class="border p-2 w-full" placeholder="message" name="message">
-                                <button type="submit" id="sendMessage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <input type="text" class="border p-2 md:w-3/4 w-3/4 lg:w-5/12 max-w-full bottom-0 fixed md:m-auto" placeholder="message" name="message">
+                                <button type="submit" id="sendMessage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bottom-0 fixed left-3/4 flex-wrap flex ">
                                     Envoyer
                                 </button>
 

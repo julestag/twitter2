@@ -13,18 +13,60 @@ function onglets(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-document.addEventListener("DOMContentLoaded", function() {
 
-});
-
-function changeTheme() {
-    // console.log(window.getComputedStyle(document.body).backgroundColor)
-    if(window.getComputedStyle(document.body).backgroundColor === "rgb(240, 240, 240)"){
-        document.body.style.backgroundColor = "rgb(105,105,105)";
-    } else {
-        document.body.style.backgroundColor = "rgb(240, 240, 240)";
-    } 
+//
+function buttonreglage() {
+    document.getElementById("settingsModal").style.display = "block";
 }
+
+function fermemodal() {
+    document.getElementById("settingsModal").style.display = "none";
+}
+
+function changeBackgroundColor(color) {
+    document.body.style.backgroundColor = color;
+    localStorage.setItem('backgroundColor', color);
+    fermemodal();
+
+}
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     var sauvegardebg = localStorage.getItem('backgroundColor');
+//     if (sauvegardebg) {
+//         document.body.style.backgroundColor = sauvegardebg;
+//     }
+//     var sauvegardefs = localStorage.getItem('fontSize');
+//     if (sauvegardefs) {
+//         document.body.style.fontSize = `${sauvegardefs}px`;
+//     }
+//     //document.getElementsByClassName("ongletbutton")[0].click();
+// });
+
+
+
+function paramsize(fontSize) {
+    document.body.style.fontSize = `${fontSize}px`;
+    localStorage.setItem('fontSize', fontSize);
+}
+
+function incremsize() {
+    var currentSize = parseFloat(localStorage.getItem('fontSize') || window.getComputedStyle(document.body).fontSize);
+    var newSize = currentSize + 1;
+    paramsize(newSize);
+}
+
+function decremsize() {
+    var currentSize = parseFloat(localStorage.getItem('fontSize') || window.getComputedStyle(document.body).fontSize);
+    var newSize = currentSize - 1;
+    paramsize(newSize);
+}
+document.addEventListener("DOMContentLoaded", function() {
+    var enregistresize = localStorage.getItem('fontSize');
+    if (enregistresize) {
+        paramsize(parseFloat(enregistresize));
+    }
+    //document.getElementsByClassName("ongletbutton")[0].click();
+});
 
 function notif() {
     var modal = document.getElementById("notificationsModal");
@@ -208,6 +250,12 @@ function affichage(test){
         var pase2 = JSON.parse(response)
         var div = document.getElementsByClassName("active");
         div[0].innerHTML = "";
+        var div_content_message = document.querySelectorAll('.tab-content');
+        console.log(div_content_message)
+        for(var a = 0 ; a < div_content_message.length; a++){
+            div_content_message[a].innerHTML = "";
+        }   
+        //div_content_message.innerHTML="";
         for(var k = 0 ; k < Object.keys(pase2).length; k++){
             var value = Object.values(pase2[k]);
             var div = document.getElementsByClassName("active");
@@ -221,7 +269,7 @@ function affichage(test){
 
 $(document).click(function(event) {
     var element_clicked = $(event.target);
-   // console.log(element_clicked)
+    //console.log(element_clicked[0])
    //console.log(element_clicked[0].innerHTML)
    //console.log(element_clicked)
    if(element_clicked[0] == null){
@@ -230,7 +278,10 @@ $(document).click(function(event) {
     return;
    } 
     else if(element_clicked[0].getAttribute("class").includes('ongletbutton')){
+        var h2 = document.getElementById("h2_nom_convo");
         setInterval(affichage(element_clicked[0].innerHTML),1000);
+        h2.innerHTML = "";
+        h2.innerHTML = element_clicked[0].innerHTML;
     }
    // return test1;
 });
@@ -258,3 +309,39 @@ $("#chatbox").submit(function(e){
     })
      
 })
+
+var hamburger_convo = document.getElementById("menu_hamburger_convo");
+var croix_close = document.getElementById('croix_close');
+var div_content = document.getElementById("div_message_content");
+var twitter_convo = document.getElementById("twitter_convo");
+var close_navbar = document.getElementById("close_navbar");
+var navbar = document.getElementById("navbar");
+
+hamburger_convo.addEventListener("click",() => {
+    var div_convo = document.getElementById("div_convo");
+    div_convo.classList.remove('hidden');
+    div_convo.classList.add('w-1/2');
+    croix_close.classList.remove('hidden');
+    div_content.classList.add('hidden');
+})
+
+
+croix_close.addEventListener("click",() => {
+    var div_convo = document.getElementById("div_convo");
+    croix_close.classList.add('hidden');
+    div_convo.classList.remove('w-1/2');
+    div_convo.classList.add('hidden');
+    div_content.classList.remove('hidden');
+    
+})
+
+twitter_convo.addEventListener("click",() =>{
+    navbar.classList.remove('hidden')
+})
+
+close_navbar.addEventListener("click",() => {
+    navbar.classList.add('hidden');
+})
+
+
+

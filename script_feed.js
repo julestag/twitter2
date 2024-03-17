@@ -134,14 +134,21 @@ function tabs (nav){
                 var p = document.createElement('p');
                 var p1 = document.createElement('p');
                 var img = document.createElement('img');
+               var like = document.createElement('img');
                 var br = document.createElement('br');
                 var br1 = document.createElement('br');
+                var nombrelike = document.createElement('p');
 
                 var retweet = document.createElement("img");
                 retweet.src = "./images/retweet.png"
                 retweet.setAttribute("id","retweet");
                 retweet.setAttribute('data-id', element['id']);
 
+                like.src ='images/coeur.png';
+                    like.id = 'coeur';
+                    nombrelike.id ="nombrelike";
+                nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
 
                 var img_com = document.createElement("img");
                 img_com.src="./images/commentaire.png";
@@ -156,16 +163,20 @@ function tabs (nav){
                 img.setAttribute('id','pdp');
                 var content = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
                 if(element['content'].includes("image_")){
+                    //alert("ok");
+                   // console.log(localStorage.getItem(element['content']));
                     var img = document.createElement("img");
                     img.id = 'image';
                     img.setAttribute("src",localStorage.getItem(element['content']));
                     p.innerHTML = element['at_user_name'] + " : ";
+                   // tweetsDiv.appendChild(p);
                     tweetsDiv.appendChild(img);
                 }else{
                     if(element['content'].includes("#") || element['content'].includes("@")){
                         let temp = element['content'].replace(/#/g, "%§!%#");
                         let words = temp.split(/\s|%§!%/);
                         let hashtags = words.filter((word) => word.startsWith("#"));
+                        // console.log(hashtags);
                         if(hashtags){
                             hashtags.forEach(function(elementBis) {
                                 $.ajax({
@@ -179,9 +190,11 @@ function tabs (nav){
                         }
                     
                     var contentTemp = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
-                    var content = contentTemp.replace(/@(\w+)/g, `<a href='profil_search.php?at=$1'>@$1</a>`)
+                    var content = contentTemp.replace(/@(\w+)/g, `<a href='profil_search.php?at=$1'>@$1</a>`);
                     h1.innerHTML = element['username'];
                     p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
+                    nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -190,14 +203,18 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
+                       div.appendChild(like);
+                    div.appendChild(nombrelike);
                     div.appendChild(retweet);
                     div.appendChild(img_com);
-                    // console.log(element['content']);
+                   // console.log(element['content']);
                     }else{
-                    //console.log(element['content']);
+                                            // console.log(element['content']);
                     //console.log(element);
                     h1.innerHTML = element['username'];
                     p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
+                     nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -206,7 +223,9 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
-                    div.appendChild(retweet);  
+                        div.appendChild(like);
+                    div.appendChild(nombrelike);
+                    div.appendChild(retweet); 
                     div.appendChild(img_com); 
                    // console.log(element['content']);
                     }
@@ -223,7 +242,7 @@ function tabs (nav){
 
     $.post('./feed.php',{retweet:'check_retweet'},(response) =>{
         if(Object.keys(response).length == 0){
-            return false;
+            return;
         }
         var parse = JSON.parse(response);
         for(var i = 0 ; i < Object.keys(parse).length; i++){
@@ -239,6 +258,8 @@ function tabs (nav){
                 var img = document.createElement('img');
                 var br = document.createElement('br');
                 var br1 = document.createElement('br');
+                  var like = document.createElement('img');
+                var nombrelike = document.createElement('p');
                 var p_user_retweet = document.createElement('p');
                 p_user_retweet.innerHTML = value_parse[1]['at_user_name'] + " a retweet";
                 p_user_retweet.style.opacity = "0.33"
@@ -253,6 +274,11 @@ function tabs (nav){
                 retweet.src = "./images/retweet.png"
                 retweet.setAttribute("id","retweet");
                 retweet.setAttribute('data-id', value_parse[0]['id']);
+                    like.src ='images/coeur.png';
+                like.id = 'coeur';
+                nombrelike.id ="nombrelike";
+                nombrelike.innerHTML = value_parse[0]['likes_count'];
+                like.setAttribute('data-id', value_parse[0]['id']);
 
             
                 var img_com = document.createElement("img");
@@ -296,8 +322,14 @@ function tabs (nav){
                         }
                     
                     var content = value_parse[0]['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
+                 //   console.log(content);
+                                                                // console.log(element['content']);
+                    //console.log(element);
+                    
                     h1.innerHTML = value_parse[0]['username'];
                     p.innerHTML = value_parse[0]['at_user_name'];
+                   nombrelike.innerHTML = value_parse[0]['likes_count'];
+
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(p_user_retweet);
@@ -309,9 +341,13 @@ function tabs (nav){
                     div.appendChild(br1);
                     div.appendChild(retweet);
                     div.appendChild(img_com);
+                   // console.log(element['content']);
                     }else{
+                                            // console.log(element['content']);
+                    //console.log(element);
                     h1.innerHTML = value_parse[0]['username'];
                     p.innerHTML = value_parse[0]['at_user_name'];
+                   nombrelike.innerHTML = value_parse[0]['likes_count'];
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(p_user_retweet);
@@ -321,18 +357,22 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
+                    div.appendChild(like);
+                    div.appendChild(nombrelike);
                     div.appendChild(retweet); 
                     div.appendChild(img_com);  
+                   // console.log(element['content']);
                     }
 
                 }
            
         }
     })
+    
 
 }   
 printTweets();
-setInterval(printTweets, 300000);
+setInterval(printTweets, 1000);
 
 
    document.getElementById("post_tweet").addEventListener("submit",function(e){
@@ -406,6 +446,23 @@ setInterval(printTweets, 300000);
 
     }
   })
+  
+  document.addEventListener('click', function(e){
+    if(e.target.id=="logocache"){
+        document.getElementsByClassName("sticky").style.display = "none";
+        document.getElementsByClassName("sticky").style.display = "inline";
+
+    }
+  })
+  document.addEventListener('click', function(e){
+    if(e.target.id=="coeur"){
+        
+        let dataId = $(e.target).attr("data-id");
+        like(dataId);
+        document.getElementById("nombrelike").style.color = "red";
+
+    }
+  })
   function retweet(dataId)
    {
     $.post("./retweet.php",{tweetid: dataId},function(response){
@@ -474,16 +531,20 @@ document.addEventListener('click', function(e){
                    img.setAttribute('id','pdp');
                    var content = value_final[0].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
                    if(value_final[0].includes("image_")){
+                       //alert("ok");
+                      // console.log(localStorage.getItem(element['content']));
                        var img = document.createElement("img");
                        img.id = 'image';
                        img.setAttribute("src",localStorage.getItem(value_final[0]));
                        p.innerHTML = value_final[2] + " : ";
+                      // tweetsDiv.appendChild(p);
                        tweetsDiv.appendChild(img);
                    }else{
                        if(value_final[0].includes("#")){
                            let temp = value_final[0].replace(/#/g, "%§!%#");
                            let words = temp.split(/\s|%§!%/);
                            let hashtags = words.filter((word) => word.startsWith("#"));
+                           // console.log(hashtags);
                            if(hashtags){
                                hashtags.forEach(function(elementBis) {
                                    $.ajax({
@@ -497,6 +558,10 @@ document.addEventListener('click', function(e){
                            }
                        
                        var content = value_final[0].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
+                    //   console.log(content);
+                                                                   // console.log(element['content']);
+                       //console.log(element);
+                       
                        h1.innerHTML = value_final[3];
                        p.innerHTML = value_final[2];
                        p1.innerHTML = content;
@@ -508,7 +573,13 @@ document.addEventListener('click', function(e){
                        div_tweet_response_modal.append(br1);
                        div_tweet_response_modal.append(retweet);
                        div_tweet_response_modal.append(img_com);
+                      // console.log(element['content']);
+
+
+                      
                        }else{
+                                               // console.log(element['content']);
+                       //console.log(element);
                        h1.innerHTML = value_final[3];
                        p.innerHTML = value_final[2];
                        p1.innerHTML = content;
@@ -538,10 +609,16 @@ document.addEventListener('click', function(e){
              })
         
         })
-    }
-  })
 
-  function deleteCookie(name) {
+    }
+    
+  })
+  document.getElementById('menu-bouton').addEventListener('click', function() {
+    document.querySelector('.menu').classList.toggle('active');
+    $('#search').toggle()
+
+});
+function deleteCookie(name) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 }
 

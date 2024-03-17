@@ -74,7 +74,7 @@ if ($token) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="src/output.css">
+        <!-- <link rel="stylesheet" href="src/output.css"> -->
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -161,10 +161,6 @@ if ($token) {
             background-color: #ccc;
         }
 
-        body {
-            background-color: #f0f0f0;
-        }
-
         .notification-button {
             position: relative;
             background-color: transparent;
@@ -191,29 +187,28 @@ if ($token) {
             width: 85px;
             height: 30px;
             position: absolute;
-            top: 50px;
-            left: 50px;
             cursor: hand;
         }
     </style>
 
     <body>
-        <div class="grid grid-col-8">
-            <div class="menu col-span-2 w-10 text-align mx-3">
+        <img src='./images/hamburger_logo.png' class="block lg:hidden" id="menu_profile">
+        <img src='./images/close.png' class="hidden" id="close">
+        <div class="flex justify-center align-center mt-2  lg:grid lg:grid-cols-3">
+            <div class="menu hidden lg:block flex flex-col p-1">
                 <img class="w-10" src="./images/logs.png" alt="Logo twitter noir">
                 <br>
-                <div class="flex items-center">
+                <div class="flex items-center pb-6">
                     <img class="w-8" src="./images/home.png" alt="Logo twitter noir">
 
                     <a class="text-align mx-6" href="fil_actu.php">Home</a>
                 </div>
-                <br>
                 <div class="flex items-center">
-                    <img class="w-8" src="./images/profile.png" alt="Logo twitter noir">
+                    <img class="w-8" src="./images/messages.png" alt="Logo twitter noir">
 
                     <button class="text-align mx-6 data-target" id="messagerie.php"><a href="#">Messages</a></button>
                 </div>
-                <button class="button-settings" onclick="buttonreglage()">
+                <!-- <button class="button-settings" onclick="buttonreglage()">
                     <i class="fas fa-cog"></i> Réglages
                 </button>
 
@@ -226,8 +221,8 @@ if ($token) {
                         <span class="close-button" onclick="notif()">&times;</span>
                         <h2>Notifications</h2>
                         <p>0 Notifications</p>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div>
                 <div id="settingsModal" class="modal">
                     <div class="modal-content">
                         <span class="close-button" onclick="fermemodal()">&times;</span>
@@ -238,11 +233,17 @@ if ($token) {
                         <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="incremsize()">Augmenter la taille de la police</button>
                         <button style="border: 1px solid black; border-radius: 3vh; padding: 1vh;" onclick="decremsize()">Diminuer la taille de la police</button>
                     </div>
-                </div>
+                </div> -->
                 <br>
-            </div>
-            <div class="bg-gray-100" style="position: relative;left: 30VH;bottom: 35vh;padding: 10vh">
-                <div class="container mx-auto px-4">
+                <div class="flex items-center">
+                <img class="w-8" src="images/profile.png" alt="Logo twitter noir">
+
+                 <a class="text-align mx-6" href="profile.php">Profile</a>
+    
+</div>
+            </div class="col-span-3">
+            <div>
+                <div class="flex flex-col justify-center">
                     <div class="w-full max-w-xl mx-auto pt-4">
                         <div class="mb-4 " id="div_img_profile">
                             <script>
@@ -262,10 +263,10 @@ if ($token) {
 
                         </div>
 
-                        <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                        <div class="flex justify-around text-center border-t border-gray-300 pt-4 flex-wrap">
                             <div>
                                 <h2 class="text-lg font-bold"><?php echo $tweetCount; ?></h2>
-                                <p class="text-gray-600">Tweets</p>
+                                <p class="text-gray-600 mr-4">Tweets</p>
                             </div>
 
                             <div id="modalAbonnes" class="modal">
@@ -284,63 +285,41 @@ if ($token) {
                             </div>
 
                             <div>
-                                <h2 class="text-lg font-bold"><?php echo $compteurabonne; ?></h2>
+                                <h2 class="text-lg font-bold"><?php echo $compteurabonnement; ?></h2>
                                 <p class="text-gray-600">Abonnés</p>
                             </div>
                             <div>
-                                <h2 class="text-lg font-bold"><?php echo $compteurabonnement; ?></h2>
+                                <h2 class="text-lg font-bold"><?php echo $compteurabonne; ?></h2>
                                 <p class="text-gray-600">Abonnements</p>
                             </div>
                         </div>
-                    </div>
 
                 </div>
-                <button style="position: relative;left: 10vh;" id="follow-button" data-user="<?php echo $idUser ?>" data-userConnected ="<?php echo $idUserConnected ?>">+ Follow</button>
-                <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                    <div class="flex justify-around text-center border-t border-gray-300 pt-4">
+                    <button style="position: relative;left: 10vh;" id="follow-button" data-user="<?php echo $idUser ?>" data-userConnected ="<?php echo $idUserConnected ?>">+ Follow</button>
+                    </div>
                 </div>
             </div>
             <br>
-            <div>
+            <!-- <div>
                 <img style="position: relative;bottom: 4vh;width: 4.6%;left: 50vh;" src="./images/email_copie.png" style="width: 5%;height: 20%;position:relative;bottom: 60vh;" alt="">
 
-            </div>
+            </div> -->
 
 
             <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
             <script src="script.js"></script>
+            <script src="script_profil.js"></script>
 
     </body>
 
    
     </html>
-    <script>
-        function afficherModalAbonnes() {
-            document.getElementById('modalAbonnes').style.display = 'block';
-        }
-
-        function fermerModalAbonnes() {
-            document.getElementById('modalAbonnes').style.display = 'none';
-        }
-
-        //document.getElementById('compteurAbonnes').addEventListener('click', afficherModalAbonnes);
-    </script>
+  
 
     </html>
-    <script>
-        $(document).ready(function() {
-            $('#follow-button').click(function() {
-                let button = document.getElementById("follow-button");
-                let userId = button.parseInt(getAttribute('data-userConnected')); // personne connecté
-                let followId =  button.parseInt(getAttribute('data-user')); // personne ciblé
+    <script src="./script_follow.js">
 
-                $.post('./php1/addFollower.php', {
-                    userId: userId,
-                    followId: followId
-                }, function(data) {
-                    alert(data);
-                });
-            });
-        });
     </script>
 
 <?php
