@@ -787,6 +787,7 @@ textarea:focus{
   position:absolute;
   top:0;
   right:0;
+  
 }
 
 .search:focus{
@@ -823,7 +824,7 @@ textarea:focus{
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
-@media (min-width: 768px) {
+@media (min-width: 766px) {
   .md\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -839,7 +840,14 @@ textarea:focus{
 #tweetsDiv{
 max-height: 750px;
 width: 900px;
+
 }
+#searchDiv{
+
+    margin-top: -140%;
+    margin-left: 120%;
+}
+
 #test{
   width: 400px;
   height: 100px;
@@ -958,6 +966,10 @@ cursor: pointer;
   bottom: 10rem;
   margin-left: 23%;
 }
+.search {
+  top: -80px;
+  right: -252px;
+}
 
 
 @media (max-width: 768px) {
@@ -1029,8 +1041,11 @@ cursor: pointer;
 .search {
   display: none;
 }
-.menu.active ~ #search {
+.menu.active ~ #search ~ #searchDiv  {
   display: block;
+}
+.menu.disable ~ #colonnemlx {
+  display:none;
 }
 .w-full {
   width: 81%;
@@ -1039,6 +1054,20 @@ cursor: pointer;
   position: relative;
   bottom: 0rem;
   margin-left: 12%;
+}
+.search {
+  top: -285px;
+  right: -37px;
+}
+#searchDiv {
+  display: none;
+}
+#searchDiv {
+  margin-top: -220px;
+  margin-left: 137px;
+}
+#colonnemlx {
+  display:block;
 }
 
 }

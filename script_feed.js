@@ -616,6 +616,9 @@ document.addEventListener('click', function(e){
   document.getElementById('menu-bouton').addEventListener('click', function() {
     document.querySelector('.menu').classList.toggle('active');
     $('#search').toggle()
+    $('#searchDiv').toggle()
+    $('#colonnemlx').toggle()
+
 
 });
 function deleteCookie(name) {
