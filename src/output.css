@@ -776,7 +776,7 @@ textarea:focus{
 
 .col-span-4{
   position: relative;
-  bottom: 15rem;
+  bottom: 0rem;
 }
 
 .menu{
@@ -787,6 +787,7 @@ textarea:focus{
   position:absolute;
   top:0;
   right:0;
+  
 }
 
 .search:focus{
@@ -823,7 +824,7 @@ textarea:focus{
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
-@media (min-width: 768px) {
+@media (min-width: 766px) {
   .md\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -836,19 +837,24 @@ textarea:focus{
     color: rgb(147 197 253 / var(--tw-text-opacity));
   }
 }
-#tweetsDiv {
-  overflow: scroll;
-  max-height: 750px;
-  width: 900px;
-  overflow-x: hidden;
+#tweetsDiv{
+max-height: 750px;
+width: 900px;
+
 }
+#searchDiv{
+
+    margin-top: -140%;
+    margin-left: 120%;
+}
+
 #test{
   width: 400px;
   height: 100px;
-  border-bottom: 1px solid rgba(163, 163, 163, 0.374);
+  border-bottom: 1px solid rgba(176, 176, 176, 0.374);
 margin-left: 44%;
-margin-top: 10%;
-padding-bottom: 10%;
+margin-top: 4%;
+padding-bottom: 16%;
 }
 #pdp{
   border-radius: 50%;
@@ -878,24 +884,44 @@ border-bottom: 1px solid rgba(163, 163, 163, 0.374);
 margin-bottom: 2%;
 padding-bottom: 3%;
   }
-  
+  #coeur{
+height : 18px;
+width: 18px;
+margin-left: 92%;
+cursor: pointer;
+  }
   #retweet {
     height: 18px;
     width: 18px;
-    margin-top: -11%;
+    margin-top: -2%;
     margin-left: 86%;
     cursor: pointer;
 
 }
+#nombrelike{
+  font-size: 11px;
+  margin-left: 88%;
+  margin-top: -9%;
+  }
 #commentaire {
   height: 18px;
   width: 18px;
   margin-top: -11%;
   margin-left: 86%;
   cursor: pointer;
-
 }
-
+.sticky{
+  width:60px;
+  height:60px;
+    float:right;
+    position: sticky;
+    -o-position: sticky;
+    -moz-position: sticky;
+    -webkit-position: sticky;
+    -ms-position: sticky;
+    -khtml-position: sticky;
+    top: 0;
+}
 .modal {
   display: none;
   position: fixed;
@@ -928,4 +954,120 @@ padding-bottom: 3%;
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+#logocache{
+  display:none
+}
+.menu-toggle {
+  display: none;
+}
+.col-span-4 {
+  position: relative;
+  bottom: 10rem;
+  margin-left: 23%;
+}
+.search {
+  top: -80px;
+  right: -252px;
+}
+
+
+@media (max-width: 768px) {
+  .body{
+    overflow-x: hidden;
+  }
+  .menu-toggle {
+      display: block; 
+  }
+
+  .menu {
+      display: none;
+  }
+  .menu.active {
+      display: block; 
+  }
+
+  #test {
+    width: 297px;
+    height: 153px;
+    border-bottom: 1px solid rgba(176, 176, 176, 0.374);
+    margin-left: 8%;
+    margin-top: 1%;
+    padding-bottom: 16%;
+}
+.w-1\/2 {
+  width: 75%;
+}
+.post {
+  position: relative;
+  left: 5rem;
+  top: -0.4rem;
+}
+#tweetsDiv {
+  max-height: 900px;
+  width: auto;
+}
+#test h1 {
+  margin-top: -24%;
+  margin-right: 41%;
+}
+#image {
+  height: auto;
+  width: 100%;
+  margin-left: 0%;
+  border-bottom: 1px solid rgba(163, 163, 163, 0.374);
+  margin-bottom: 2%;
+  padding-bottom: 3%;
+}
+#commentaire {
+  height: 18px;
+  width: 18px;
+  margin-top: -13%;
+  margin-left: 86%;
+  cursor: pointer;
+}
+#nombrelike {
+  font-size: 11px;
+  margin-left: 88%;
+  margin-top: -10%;
+}
+#retweet {
+  height: 18px;
+  width: 18px;
+  margin-top: -2%;
+  margin-left: 85%;
+  cursor: pointer;
+}
+.search {
+  display: none;
+}
+.menu.active ~ #search ~ #searchDiv  {
+  display: block;
+}
+.menu.disable ~ #colonnemlx {
+  display:none;
+}
+.w-full {
+  width: 81%;
+}
+.col-span-4 {
+  position: relative;
+  bottom: 0rem;
+  margin-left: 12%;
+}
+.search {
+  top: -285px;
+  right: -37px;
+}
+#searchDiv {
+  display: none;
+}
+#searchDiv {
+  margin-top: -220px;
+  margin-left: 137px;
+}
+#colonnemlx {
+  display:block;
+}
+
 }

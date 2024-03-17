@@ -1,7 +1,7 @@
 <?php
 
 try {
-    $connexion = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+    $connexion = new PDO("mysql:host=localhost;dbname=twitter", "elkatianis", "2535epitech");
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }

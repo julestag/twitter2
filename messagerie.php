@@ -1,6 +1,6 @@
 <?php 
 try {
-    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "elkatianis", "2535epitech");
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }

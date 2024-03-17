@@ -6,7 +6,7 @@ define('STDOUT', fopen('php://stdout', 'w'));
 if (isset($_POST['tweet'])) {
     $tweet = htmlspecialchars($_POST['tweet']);
 
-    $bdd = new PDO('mysql:host=localhost;dbname=twitter;charset=utf8', 'robin', 'robin-mysql');
+    $bdd = new PDO('mysql:host=localhost;dbname=twitter;charset=utf8', 'elkatianis', '2535epitech');
     $requete = $bdd -> query("SELECT user.id FROM user INNER JOIN token ON user.id = token.id_user WHERE token.token LIKE '$token'");
     $result = $requete->fetch();
     $idUser = $result["id"];

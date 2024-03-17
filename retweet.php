@@ -11,7 +11,7 @@ if (isset($_POST['tweetid'])) {
     fwrite(STDOUT, print_r($_POST, true));
 
 
-    $conn = new PDO('mysql:host=localhost;dbname=twitter;charset=utf8', 'robin', 'robin-mysql');
+    $conn = new PDO('mysql:host=localhost;dbname=twitter;charset=utf8', 'elkatianis', '2535epitech');
     $requete = $conn -> query("SELECT user.id FROM user INNER JOIN token ON user.id = token.id_user WHERE token.token LIKE '$token'");
     $result = $requete->fetch();
     $idUser = $result["id"];

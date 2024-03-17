@@ -1,6 +1,6 @@
 <?php
 try {
-    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "robin", "robin-mysql");
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "elkatianis", "2535epitech");
 } catch (PDOException $e) {
     echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
 }
@@ -11,7 +11,7 @@ define('STDOUT', fopen('php://stdout', 'w'));
 $token = $_COOKIE['token'];
 
 if(isset($_GET['print'])){
-    $requete = $bdd->query("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user) FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE id_quoted_tweet IS NULL GROUP BY tweet.id ORDER BY tweet.time DESC");
+    $requete = $bdd->query("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user) as likes_count FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE id_quoted_tweet IS NULL GROUP BY tweet.id ORDER BY tweet.time DESC");
     $tweets = $requete->fetchAll(PDO::FETCH_ASSOC);
     //$tweet_response = $query->fetchAll(PDO::FETCH_ASSOC);
    // $result = array_merge($tweets,$tweet_response);
@@ -20,7 +20,7 @@ if(isset($_GET['print'])){
 }
 if(isset($_POST['quoted_tweet'])){
     $id_tweet_quoted = $_POST['id_tweet_quoted'];
-    $query = $bdd -> prepare("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user),id_quoted_tweet FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE  id_quoted_tweet LIKE '$id_tweet_quoted' GROUP BY tweet.id ORDER BY tweet.time ASC");
+    $query = $bdd -> prepare("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user) as likes_count,id_quoted_tweet FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE  id_quoted_tweet LIKE '$id_tweet_quoted' GROUP BY tweet.id ORDER BY tweet.time ASC");
     $query -> execute();
     $tweet_response = $query->fetchAll(PDO::FETCH_ASSOC);
    // $result = array_merge($tweets,$tweet_response);
@@ -45,7 +45,7 @@ if(array_key_exists('retweet',$_POST)){
         $id_tweet_retweet = $rows["id_tweet"];
         $id_user_retweet = $rows["id_user"];
 
-        $query2 = $bdd -> prepare("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user) FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE tweet.id LIKE '$id_tweet_retweet' GROUP BY tweet.id ORDER BY tweet.time DESC");
+        $query2 = $bdd -> prepare("SELECT tweet.content,tweet.id,user.at_user_name,user.username,profile_picture,COUNT(likes.id_user) as likes_count FROM tweet INNER JOIN user ON tweet.id_user = user.id LEFT JOIN likes ON tweet.id = likes.id_tweet WHERE tweet.id LIKE '$id_tweet_retweet' GROUP BY tweet.id ORDER BY tweet.time DESC");
         $query2 -> execute();
 
         $query3 = $bdd ->prepare("SELECT at_user_name FROM user WHERE id LIKE '$id_user_retweet'");

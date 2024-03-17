@@ -134,14 +134,21 @@ function tabs (nav){
                 var p = document.createElement('p');
                 var p1 = document.createElement('p');
                 var img = document.createElement('img');
+               var like = document.createElement('img');
                 var br = document.createElement('br');
                 var br1 = document.createElement('br');
+                var nombrelike = document.createElement('p');
 
                 var retweet = document.createElement("img");
                 retweet.src = "./images/retweet.png"
                 retweet.setAttribute("id","retweet");
                 retweet.setAttribute('data-id', element['id']);
 
+                like.src ='images/coeur.png';
+                    like.id = 'coeur';
+                    nombrelike.id ="nombrelike";
+                nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
 
                 var img_com = document.createElement("img");
                 img_com.src="./images/commentaire.png";
@@ -165,7 +172,7 @@ function tabs (nav){
                    // tweetsDiv.appendChild(p);
                     tweetsDiv.appendChild(img);
                 }else{
-                    if(element['content'].includes("#")){
+                    if(element['content'].includes("#") || element['content'].includes("@")){
                         let temp = element['content'].replace(/#/g, "%§!%#");
                         let words = temp.split(/\s|%§!%/);
                         let hashtags = words.filter((word) => word.startsWith("#"));
@@ -182,12 +189,12 @@ function tabs (nav){
                             });
                         }
                     
-                    var content = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
-                 //   console.log(content);
-                                                                // console.log(element['content']);
-                    //console.log(element);
+                    var contentTemp = element['content'].replace(/#(\w+)/g, `<a href='printHashtag.php?hashtag=$1'>#$1</a>`);
+                    var content = contentTemp.replace(/@(\w+)/g, `<a href='profil_search.php?at=$1'>@$1</a>`);
                     h1.innerHTML = element['username'];
-                    p.innerHTML = element['at_user_name'];
+                    p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
+                    nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -196,6 +203,8 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
+                       div.appendChild(like);
+                    div.appendChild(nombrelike);
                     div.appendChild(retweet);
                     div.appendChild(img_com);
                    // console.log(element['content']);
@@ -203,7 +212,9 @@ function tabs (nav){
                                             // console.log(element['content']);
                     //console.log(element);
                     h1.innerHTML = element['username'];
-                    p.innerHTML = element['at_user_name'];
+                    p.innerHTML = `<a href='profil_search.php?at=${element['at_user_name'].slice(1)}'>` + element['at_user_name'] + `</a>`;
+                     nombrelike.innerHTML = element['likes_count'];
+                    like.setAttribute('data-id', element['id']);
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(img);
@@ -212,7 +223,9 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
-                    div.appendChild(retweet);  
+                        div.appendChild(like);
+                    div.appendChild(nombrelike);
+                    div.appendChild(retweet); 
                     div.appendChild(img_com); 
                    // console.log(element['content']);
                     }
@@ -245,6 +258,8 @@ function tabs (nav){
                 var img = document.createElement('img');
                 var br = document.createElement('br');
                 var br1 = document.createElement('br');
+                  var like = document.createElement('img');
+                var nombrelike = document.createElement('p');
                 var p_user_retweet = document.createElement('p');
                 p_user_retweet.innerHTML = value_parse[1]['at_user_name'] + " a retweet";
                 p_user_retweet.style.opacity = "0.33"
@@ -259,6 +274,11 @@ function tabs (nav){
                 retweet.src = "./images/retweet.png"
                 retweet.setAttribute("id","retweet");
                 retweet.setAttribute('data-id', value_parse[0]['id']);
+                    like.src ='images/coeur.png';
+                like.id = 'coeur';
+                nombrelike.id ="nombrelike";
+                nombrelike.innerHTML = value_parse[0]['likes_count'];
+                like.setAttribute('data-id', value_parse[0]['id']);
 
             
                 var img_com = document.createElement("img");
@@ -308,6 +328,8 @@ function tabs (nav){
                     
                     h1.innerHTML = value_parse[0]['username'];
                     p.innerHTML = value_parse[0]['at_user_name'];
+                   nombrelike.innerHTML = value_parse[0]['likes_count'];
+
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(p_user_retweet);
@@ -325,6 +347,7 @@ function tabs (nav){
                     //console.log(element);
                     h1.innerHTML = value_parse[0]['username'];
                     p.innerHTML = value_parse[0]['at_user_name'];
+                   nombrelike.innerHTML = value_parse[0]['likes_count'];
                     p1.innerHTML = content;
                     tweetsDiv.appendChild(div);
                     div.appendChild(p_user_retweet);
@@ -334,6 +357,8 @@ function tabs (nav){
                     div.appendChild(p);
                     div.appendChild(p1);
                     div.appendChild(br1);
+                    div.appendChild(like);
+                    div.appendChild(nombrelike);
                     div.appendChild(retweet); 
                     div.appendChild(img_com);  
                    // console.log(element['content']);
@@ -343,6 +368,7 @@ function tabs (nav){
            
         }
     })
+    
 
 }   
 printTweets();
@@ -417,6 +443,23 @@ setInterval(printTweets, 1000);
         let dataId = $(e.target).attr("data-id")
         console.log(dataId);
         retweet(dataId);
+
+    }
+  })
+  
+  document.addEventListener('click', function(e){
+    if(e.target.id=="logocache"){
+        document.getElementsByClassName("sticky").style.display = "none";
+        document.getElementsByClassName("sticky").style.display = "inline";
+
+    }
+  })
+  document.addEventListener('click', function(e){
+    if(e.target.id=="coeur"){
+        
+        let dataId = $(e.target).attr("data-id");
+        like(dataId);
+        document.getElementById("nombrelike").style.color = "red";
 
     }
   })
@@ -566,11 +609,24 @@ document.addEventListener('click', function(e){
              })
         
         })
+
     }
+    
   })
+  document.getElementById('menu-bouton').addEventListener('click', function() {
+    document.querySelector('.menu').classList.toggle('active');
+    $('#search').toggle()
+    $('#searchDiv').toggle()
+    $('#colonnemlx').toggle()
 
 
+});
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+}
 
-
-
-   
+const disconnectionButton = document.getElementById("disconnectionButton");
+disconnectionButton.addEventListener("click", function(){
+    deleteCookie("token");
+    window.location.replace('acceuil.html');
+})

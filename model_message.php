@@ -1,7 +1,7 @@
 <?php
 session_start();
-  $username = 'robin';
-  $password = 'robin-mysql';
+  $username = 'elkatianis';
+  $password = '2535epitech';
 
   try{
     $connexion = new PDO('mysql:host=localhost;dbname=twitter', $username,$password);
