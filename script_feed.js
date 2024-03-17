@@ -153,7 +153,7 @@ function tabs (nav){
                 var img_com = document.createElement("img");
                 img_com.src="./images/commentaire.png";
                 img_com.setAttribute("id","commentaire");
-                img_com.setAttribute('data-id-com', element['id']);
+                img_com.setAttribute('data-id-com', element['twid']);
 
                 var key_ls_picture = element['profile_picture'];
 
@@ -275,7 +275,7 @@ function tabs (nav){
                 var retweet = document.createElement("img");
                 retweet.src = "./images/retweet.png"
                 retweet.setAttribute("id","retweet");
-                retweet.setAttribute('data-id', value_parse[0]['id']);
+                retweet.setAttribute('data-id', value_parse[0]['twid']);
                     like.src ='images/coeur.png';
                 like.id = 'coeur';
                 nombrelike.id ="nombrelike";
@@ -286,7 +286,7 @@ function tabs (nav){
                 var img_com = document.createElement("img");
                 img_com.src="./images/commentaire.png";
                 img_com.setAttribute("id","commentaire");
-                img_com.setAttribute('data-id-com', value_parse[0]['id']);
+                img_com.setAttribute('data-id-com', value_parse[0]['twid']);
 
 
                 var key_ls_picture = value_parse[0]['profile_picture'];
@@ -614,8 +614,3 @@ document.addEventListener('click', function(e){
     }
     
   })
-  document.getElementById('menu-bouton').addEventListener('click', function() {
-    document.querySelector('.menu').classList.toggle('active');
-    $('#search').toggle()
-
-});
