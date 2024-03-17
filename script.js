@@ -1,76 +1,87 @@
-function tabs (nav){
-    var tabs = nav.querySelectorAll("*[data-target]");
-    var i = 0;
-    for(i= 0 ; i< tabs.length; i++){
-        var tab = tabs[i];
-        tab.addEventListener("click", (e) =>{
-            var id = e.target.dataset.target;
-            var pane = document.getElementById(id);
-            console.log(pane);
-            pane.classList.add("active");
+function openSigninForm() {
+  document.getElementById("signinForm").style.display = "block";
+}
 
-            var next = pane.nextElementSibling;
-            while(next){
-                next.classList.remove("active");
-                next = next.nextElementSibling;
-            }
-            next = pane.previousElementSibling;
-            while(next){
-                next.classList.remove("active");
-                next = next.previousElementSibling;
-            }
-        });
-    }
-   }
-   var list = document.querySelectorAll(".tab-list");
-   for(var j = 0; j< list.length; j++ ){
-       tabs(list[j]);
-   } 
+function closeSigninForm() {
+  document.getElementById("signinForm").style.display = "none";
+}
 
-   var message = document.getElementById("message");
+function openSignupForm() {
+  document.getElementById("signupForm").style.display = "block";
+}
 
-   message.addEventListener("click",function(){
-    openForm();
-   })
-   function openForm() {
-    document.getElementById("popupForm").style.display = "block";
-  }
+function closeSignupForm() {
+  document.getElementById("signupForm").style.display = "none";
+}
 
-  function closeForm() {
-    document.getElementById("popupForm").style.display = "none";
-  }
-  function postForm(){
-    const lol = document.createElement("div");
-    lol.id    = "tweet1";
-    var tmp = document.getElementById("tweet").value;
-    lol.innerHTML = tmp;
-
-
-    document.getElementById("tab2").appendChild(lol);
-
-
+function sendData(){
+  var names = document.getElementById("names").value;
+  var pseudo = document.getElementById("pseudo").value;
+  var birthdate = document.getElementById("birthdate").value;
+  var city = document.getElementById("city").value;
+  var mail =document.getElementById("mail").value;
+  var password =document.getElementById("password").value;
+  $.ajax({
+    type: 'POST',
+    url: 'signup.php',
+    dataType: 'json',
+    data: {
+      names:names,
+      pseudo:pseudo,
+      birthdate:birthdate,
+      city:city,
+      mail:mail,
+      password:password
+    },
     
-  }
-  $(document).ready(function() {
-    $('#tweet-form').submit(function(e) {
-        e.preventDefault();
-        
-   
-        var formData = $(this).serialize();
+    success: function(response){
+      console.log(response);
+      let responseString = JSON.parse(response);
+      console.log(responseString);
+      if(responseString == "error email"){
+        alert("Cette adresse mail est déja associée a un compte.");
+        console.log(responseString);
+      }
+      if(responseString == "error birthdate"){
+        alert("Vous n'avez pas l'age requis pour créer un compte.");
+        console.log(responseString);
+      }
+      if(responseString == "error pseudo"){
+        alert("Ce pseudo est déja utilisé par un autre utilisateur.");
+      }
+      if(responseString == "no errors"){
+        alert("Inscription réussie !");
+      }
+    }
+  });
+    
+  return false;
+}
 
-      
-        $.ajax({
-            type: 'GET',
-            url: 'connexion.php',
-            data: formData,
-            success: function(response) {
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
-
-var tab2Div = document.getElementById("tab2");
-
+function checkData(){
+  var mailbis =document.getElementById("mailbis").value;
+  var passwordbis =document.getElementById("passwordbis").value;
+  // consosle.log("test");
+  console.log(mailbis);
+  $.ajax({
+    type: 'POST',
+    url: 'signin.php',
+    dataType: 'json',
+    data: {
+      mailbis:mailbis,
+      passwordbis:passwordbis
+    },
+    success: function(response){
+      let responseString = JSON.parse(response);
+      // console.log("test");
+      if(responseString == "error no account"){
+        alert("Ce compte n'existe pas");
+      }
+      if (responseString == "open session"){
+        alert("Ce compte existe");
+      }
+    }
+  });
+    
+  return false;
+}

@@ -1,3 +1,25 @@
+<?php 
+define('STDOUT', fopen('php://stdout', 'w'));
+
+try {
+    $bdd = new PDO("mysql:host=localhost;dbname=twitter", "jules", "F05D730D5F");
+} catch (PDOException $e) {
+    echo 'Erreur de connexion à la base de données : ' . $e->getMessage();
+}
+
+$token = $_COOKIE['token'];
+//echo json_encode($_COOKIE['token']);
+//var_dump($token);
+// json_encode($_COOKIE['token']);
+if($token){
+    //fwrite(STDOUT, print_r($token, true));
+    
+
+
+
+session_start(); 
+?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,6 +31,10 @@
 </head>
 <body>
     <div class="grid grid-col-8">
+    <button id="menu-bouton" class="menu-toggle block md:hidden px-4 text-gray-600 focus:outline-none">
+    ☰
+</button>
+    
     <div class="menu col-span-2 w-10 text-align mx-3">
         <img class="w-10" src="images/logonoir.png" alt="Logo twitter noir">
         <br>
@@ -19,28 +45,24 @@
 </div>
 <br>
 <div class="flex items-center">
-    <img class="w-8" src="images/messages.png" alt="Logo twitter noir">
+    <img class="w-8" src="images/messages.png" alt="Logo messagerie">
 
-    <button class="text-align mx-6 data-target" id="message"><a href="#">Messages</a></button>
+    <button class="text-align mx-6 data-target" id="message"><a href="messagerie.php">Messages</a></button>
 </div>
 <br>
 <div class="flex items-center">
     <img class="w-8" src="images/profile.png" alt="Logo twitter noir">
 
-    <a class="text-align mx-6" href="#">Profile</a>
+    <a class="text-align mx-6" href="profile.php">Profile</a>
     
 </div>
 <div class="flex items-center mx-1 my-5">
-  
-    <a href="#_" class="inline-block px-12 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">POST</a>
-</div>
+  </div>
 
     </div>
 
-  
-    
 
-    <div class="col-span-4 mb-4 w-1/2 p-4 mx-auto text-center border">
+    <div class="col-span-4 mb-4 w-1/2 lg:mx-auto text-center">
         <ul class="tab-list flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
             <li class="me-2" role="presentation">
                 <button data-target="tab1" href="#" aria-current="page" class="inline-block p-4 border-b-2 rounded-t-lg hover:border-blue-300 dark:hover:text-blue-300">Suggestion</button>
@@ -49,48 +71,66 @@
                 <button data-target="tab2" href="#" class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-blue-300 dark:hover:text-blue-300">Following</button>
             </li>
         </ul>
-        <form id="tweet-form" action="#" method="get">
-    <input id="tweet" name="tweet" placeholder="Write your tweet here.." maxlength="140">
-    <hr class="hr_post w-9/12 ml-20">
-    <input type="submit" name="push" value="Post" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">
-</form>
+
+        <form id="post_tweet" method="post">
+            <textarea placeholder="Write your tweet here.." id="tweet" maxlength="140"></textarea>
+            <hr class="hr_post w-9/12 ml-20">
+
+
+            <label for="file-input">
+           <img class="img-photo" src="images/img.png" alt="logo ajout image">
+            </label>
+
+            
+           <input type="file" id="file-input">
+            <button id="post_button" type="submit" class="post inline-block px-5 py-0 mx-auto text-white bg-blue-500 rounded-full hover:bg-blue-700 md:mx-0">Post</button>
+        </form>
 
         <hr class="w-full mt-5">
         <div class="tab-pane h-screen flex justify-center grid-cols-2 mb-4 w-1/2 p-4 ">
-            <div data-content id="tab1" class="tab-content">
- nbvcxw<
+            <div data-content id="tab1" class="tab-content active">
+                <div id="tweetsDiv"></div>
             </div>
     
             <div data-content id="tab2" class="tab-content">
-            <div id="datadutweet"></div>
             </div>
 
     </div>
 </div>
 
-    <div class="col-span-2 w-10 text-align mx-3">
-    <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full"type="text" placeholder="Search">
-</div>
- 
-    </div>
-    
-    <div class="login-popup">
-      <div class="form-popup" id="popupForm">
-        <form action="/action_page.php" class="form-container">
-          <h2>Veuillez vous connecter</h2>
-          </label>
-          <input type="text" id="email" placeholder="Votre Email" name="email" required />
-          <label for="psw">
-            <strong>Mot de passe</strong>
-          </label>
-          <input type="password" id="psw" placeholder="Votre Mot de passe" name="psw" required />
-          <button type="submit" class="btn">Connecter</button>
-          <button type="button" class="btn cancel" onclick="closeForm()">Fermer</button>
-        </form>
-      </div>
+
+    <div class="col-span-2 w-10 text-align mx-3" id="searchParentDiv">
+        <input class="search mt-5 mr-5 bg-gray-100 p-1 rounded-full" id="search" type="text" placeholder="Search">
+        <div id="searchDiv"></div>
     </div>
 
+    </div>
+
+    <div id="settingsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="fermemodal()">&times;</span>
+                    <h2>Espace Commentaire</h2>
+                   
+                    <form method="POST" id="response_tweet">
+                        <textarea placeholder="Write your tweet here.." id="response_tweet_textarea" maxlength="140"></textarea>
+                        <button type="submit" style="border: 1px solid black; border-radius: 3vh; padding: 1vh;">Valider</button>
+                    </form>
+                    <div id="div_content_com"><div> 
+                </div>
+            </div>
+            <br>
+        </div>
+
+    
+
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=load"></script>
+    <script src="script_feed.js"></script>
 </body>
 </html>
+<?php
+} 
+else{
+    header("location: acceuil.html");
+}
